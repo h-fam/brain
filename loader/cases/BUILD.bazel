@@ -1,0 +1,13 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["case.go"],
+    importpath = "source.cloud.google.com/hines-alloc/brain/loader/cases",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//loader/caliber:go_default_library",
+        "//loader/manufacturer:go_default_library",
+        "//vendor/cloud.google.com/go/datastore:go_default_library",
+    ],
+)

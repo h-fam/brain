@@ -1,0 +1,18 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["writer.go"],
+    importpath = "source.cloud.google.com/hines-alloc/brain/storage",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//vendor/cloud.google.com/go/storage:go_default_library",
+        "//vendor/github.com/golang/glog:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "storage",
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)
