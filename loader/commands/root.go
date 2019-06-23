@@ -3,13 +3,13 @@ package commands
 import (
 	"context"
 
-	"github.com/marcushines/brain/loader/commands/bullet"
-	"github.com/marcushines/brain/loader/commands/caliber"
-	"github.com/marcushines/brain/loader/commands/cases"
-	"github.com/marcushines/brain/loader/commands/manufacturer"
-	"github.com/marcushines/brain/loader/commands/powder"
-	"github.com/marcushines/brain/loader/commands/primer"
 	"github.com/spf13/cobra"
+	"source.cloud.google.com/hines-alloc/brain/loader/commands/bullet"
+	"source.cloud.google.com/hines-alloc/brain/loader/commands/caliber"
+	"source.cloud.google.com/hines-alloc/brain/loader/commands/cases"
+	"source.cloud.google.com/hines-alloc/brain/loader/commands/manufacturer"
+	"source.cloud.google.com/hines-alloc/brain/loader/commands/powder"
+	"source.cloud.google.com/hines-alloc/brain/loader/commands/primer"
 )
 
 var root = &cobra.Command{

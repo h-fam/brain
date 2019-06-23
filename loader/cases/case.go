@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"cloud.google.com/go/datastore"
-	"github.com/marcushines/brain/loader/caliber"
-	"github.com/marcushines/brain/loader/manufacturer"
+	"source.cloud.google.com/hines-alloc/brain/loader/caliber"
+	"source.cloud.google.com/hines-alloc/brain/loader/manufacturer"
 )
 
 type Case struct {

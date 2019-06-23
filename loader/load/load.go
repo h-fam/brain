@@ -5,9 +5,10 @@ import (
 	"fmt"
 
 	"cloud.google.com/go/datastore"
-	"github.com/marcushines/brain/loader/bullet"
-	"github.com/marcushines/brain/loader/cases"
-	"github.com/marcushines/brain/loader/powder"
+	"source.cloud.google.com/hines-alloc/brain/loader/bullet"
+	"source.cloud.google.com/hines-alloc/brain/loader/cases"
+	"source.cloud.google.com/hines-alloc/brain/loader/powder"
+	"source.cloud.google.com/hines-alloc/brain/loader/primer"
 )
 
 type Load struct {

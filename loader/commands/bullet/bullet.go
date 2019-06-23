@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/marcushines/brain/loader/bullet"
-	"github.com/marcushines/brain/loader/cloud"
 	"github.com/spf13/cobra"
+	"source.cloud.google.com/hines-alloc/brain/loader/bullet"
+	"source.cloud.google.com/hines-alloc/brain/loader/cloud"
 )
 
 func Add(ctx context.Context, parent *cobra.Command) {
