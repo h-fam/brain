@@ -12,6 +12,6 @@ go_library(
         "//loader/commands/manufacturer:go_default_library",
         "//loader/commands/powder:go_default_library",
         "//loader/commands/primer:go_default_library",
-        "//vendor/github.com/spf13/cobra:go_default_library",
+        "@com_github_spf13_cobra//:go_default_library",
     ],
 )
