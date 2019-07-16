@@ -61,27 +61,6 @@ http_archive(
     url = "https://github.com/bazelbuild/bazel-skylib/releases/download/{}/bazel-skylib.{}.tar.gz".format(skylib_version, skylib_version),
 )
 
-# Add Docker toolchains
-http_archive(
-    name = "bazel_toolchains",
-    sha256 = "56e75f7c9bb074f35b71a9950917fbd036bd1433f9f5be7c04bace0e68eb804a",
-    strip_prefix = "bazel-toolchains-9bd2748ec99d72bec41c88eecc3b7bd19d91a0c7",
-    urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/bazel-toolchains/archive/9bd2748ec99d72bec41c88eecc3b7bd19d91a0c7.tar.gz",
-        "https://github.com/bazelbuild/bazel-toolchains/archive/9bd2748ec99d72bec41c88eecc3b7bd19d91a0c7.tar.gz",
-    ],
-)
-
-# proto_library, cc_proto_library, and java_proto_library rules implicitly
-# depend on @com_google_protobuf for protoc and proto runtimes.
-# This statement defines the @com_google_protobuf repo.
-http_archive(
-    name = "com_google_protobuf",
-    sha256 = "f976a4cd3f1699b6d20c1e944ca1de6754777918320c719742e1674fcf247b7e",
-    strip_prefix = "protobuf-3.7.1",
-    urls = ["https://github.com/google/protobuf/archive/v3.7.1.zip"],
-)
-
 load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
 
 gazelle_dependencies(go_sdk = "go_sdk")
