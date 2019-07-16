@@ -1,20 +1,13 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
-#http_archive(
-#    name = "io_bazel_rules_go",
-#    urls = [
-#        "https://storage.googleapis.com/bazel-mirror/github.com/bazelbuild/rules_go/releases/download/0.18.6/rules_go-0.18.6.tar.gz",
-#        "https://github.com/bazelbuild/rules_go/releases/download/0.18.6/rules_go-0.18.6.tar.gz",
-#    ],
-#    sha256 = "f04d2373bcaf8aa09bccb08a98a57e721306c8f6043a2a0ee610fd6853dcde3d",
-#)
-
-git_repository(
+http_archive(
     name = "io_bazel_rules_go",
-    commit = "fabf03c1cd31bcf15fb945d932cef322b242be3a",
-    remote = "https://github.com/bazelbuild/rules_go",
-    shallow_since = "1561303606 -0400",
+    urls = [
+        "https://storage.googleapis.com/bazel-mirror/github.com/bazelbuild/rules_go/releases/download/0.19.0/rules_go-0.19.0.tar.gz",
+        "https://github.com/bazelbuild/rules_go/releases/download/0.19.0/rules_go-0.19.0.tar.gz",
+    ],
+    sha256 = "9fb16af4d4836c8222142e54c9efa0bb5fc562ffc893ce2abeac3e25daead144",
 )
 
 #http_archive(
@@ -25,20 +18,9 @@ git_repository(
 
 git_repository(
     name = "bazel_gazelle",
-    shallow_since = "1561306268 -0400",
-    commit = "72ba271916ca02aaaff72949dc0c0a63ab37d395",
+    shallow_since = "",
+    commit = "f841893849567e717eb4a7b17ede577a186e45a6",
     remote = "https://github.com/bazelbuild/bazel-gazelle.git",
-)
-
-# Add Docker toolchains
-http_archive(
-    name = "bazel_toolchains",
-    sha256 = "56e75f7c9bb074f35b71a9950917fbd036bd1433f9f5be7c04bace0e68eb804a",
-    strip_prefix = "bazel-toolchains-9bd2748ec99d72bec41c88eecc3b7bd19d91a0c7",
-    urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/bazel-toolchains/archive/9bd2748ec99d72bec41c88eecc3b7bd19d91a0c7.tar.gz",
-        "https://github.com/bazelbuild/bazel-toolchains/archive/9bd2748ec99d72bec41c88eecc3b7bd19d91a0c7.tar.gz",
-    ],
 )
 
 # proto_library, cc_proto_library, and java_proto_library rules implicitly
@@ -46,10 +28,14 @@ http_archive(
 # This statement defines the @com_google_protobuf repo.
 http_archive(
     name = "com_google_protobuf",
-    sha256 = "f976a4cd3f1699b6d20c1e944ca1de6754777918320c719742e1674fcf247b7e",
-    strip_prefix = "protobuf-3.7.1",
-    urls = ["https://github.com/google/protobuf/archive/v3.7.1.zip"],
+    sha256 = "8eb5ca331ab8ca0da2baea7fc0607d86c46c80845deca57109a5d637ccb93bb4",
+    strip_prefix = "protobuf-3.9.0",
+    urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.9.0.zip"],
 )
+
+load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+
+protobuf_deps()
 
 # bazel-skylb 0.8.0 released 2019.03.20 (https://github.com/bazelbuild/bazel-skylib/releases/tag/0.8.0)
 skylib_version = "0.8.0"
@@ -61,24 +47,19 @@ http_archive(
     url = "https://github.com/bazelbuild/bazel-skylib/releases/download/{}/bazel-skylib.{}.tar.gz".format(skylib_version, skylib_version),
 )
 
+# Add Docker toolchains
+http_archive(
+    name = "bazel_toolchains",
+    sha256 = "68e7678473090542e679ce7e6aa8a3ba5669577dede2b404f9865d556bd99f10",
+    strip_prefix = "bazel-toolchains-0.28.0",
+    urls = [
+        "https://github.com/bazelbuild/bazel-toolchains/archive/0.28.0.tar.gz",
+    ],
+)
+
 load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
 
 gazelle_dependencies(go_sdk = "go_sdk")
-
-# Download using "go mod download"
-go_repository(
-    name = "org_golang_google_grpc",
-    importpath = "google.golang.org/grpc",
-    sum = "h1:j6XxA85m/6txkUCHvzlV5f+HBNl/1r5cZ2A/3IEFOO8=",
-    version = "v1.21.1",
-)
-
-go_repository(
-    name = "org_golang_x_net",
-    importpath = "golang.org/x/net",
-    sum = "h1:4QSRKanuywn15aTZvI/mIDEgPQpswuFndXpOj3rKEco=",
-    version = "v0.0.0-20190522155817-f3200d17e092",
-)
 
 load(
     "@io_bazel_rules_go//go:deps.bzl",
@@ -90,7 +71,7 @@ load(
 go_download_sdk(
     name = "go_sdk",
     sdks = {
-        "linux_amd64": ("go1.12.6.linux-amd64.tar.gz", "dbcf71a3c1ea53b8d54ef1b48c85a39a6c9a935d01fc8291ff2b92028e59913c"),
+        "linux_amd64": ("go1.12.7.linux-amd64.tar.gz", "66d83bfb5a9ede000e33c6579a91a29e6b101829ad41fffb5c5bb6c900e109d9"),
     },
 )
 
@@ -129,8 +110,8 @@ rbe_autoconfig(name = "rbe_default")
 go_repository(
     name = "co_honnef_go_tools",
     importpath = "honnef.co/go/tools",
-    sum = "h1:LJwr7TCTghdatWv40WobzlKXc9c4s8oGa7QKJUtHhWA=",
-    version = "v0.0.0-20190418001031-e561f6794a2a",
+    sum = "h1:/hemPrYIhOhy8zYrNj+069zDB68us2sMGsfkFJO0iZs=",
+    version = "v0.0.0-20190523083050-ea95bdfd59fc",
 )
 
 go_repository(
@@ -521,8 +502,8 @@ go_repository(
 go_repository(
     name = "org_golang_x_tools",
     importpath = "golang.org/x/tools",
-    sum = "h1:97SnQk1GYRXJgvwZ8fadnxDOWfKvkNQHH3CtZntPSrM=",
-    version = "v0.0.0-20190506145303-2d16b83fe98c",
+    sum = "h1:5Beo0mZN8dRzgrMMkDp0jc8YXQKx9DiJ2k1dkvGsn5A=",
+    version = "v0.0.0-20190524140312-2c0ae7006135",
 )
 
 go_repository(
@@ -661,8 +642,8 @@ go_repository(
 go_repository(
     name = "com_github_h_fam_errdiff",
     importpath = "github.com/h-fam/errdiff",
-    sum = "h1:AHeQ/ziH7IODpgW65TJeK6q36P6WPAd8wgJFXdI3oeQ=",
-    version = "v1.0.0",
+    sum = "h1:PMIBVkX6S5Lr4+GTTr2ga1m9vr1P9iWnG+Ky2KYvER8=",
+    version = "v1.0.1",
 )
 
 go_repository(
@@ -873,4 +854,18 @@ go_repository(
     importpath = "go.uber.org/zap",
     sum = "h1:ORx85nbTijNz8ljznvCMR1ZBIPKFn3jQrag10X2AsuM=",
     version = "v1.10.0",
+)
+
+go_repository(
+    name = "org_golang_google_grpc",
+    importpath = "google.golang.org/grpc",
+    sum = "h1:J0UbZOIrCAl+fpTOf8YLs4dJo8L/owV4LYVtAXQoPkw=",
+    version = "v1.22.0",
+)
+
+go_repository(
+    name = "org_golang_x_net",
+    importpath = "golang.org/x/net",
+    sum = "h1:4QSRKanuywn15aTZvI/mIDEgPQpswuFndXpOj3rKEco=",
+    version = "v0.0.0-20190522155817-f3200d17e092",
 )
