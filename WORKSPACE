@@ -2,25 +2,33 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 http_archive(
-    name = "io_bazel_rules_go",
+    name = "bazel_toolchains",
+    sha256 = "e71eadcfcbdb47b4b740eb48b32ca4226e36aabc425d035a18dd40c2dda808c1",
+    strip_prefix = "bazel-toolchains-0.28.4",
     urls = [
-        "https://storage.googleapis.com/bazel-mirror/github.com/bazelbuild/rules_go/releases/download/0.19.0/rules_go-0.19.0.tar.gz",
-        "https://github.com/bazelbuild/rules_go/releases/download/0.19.0/rules_go-0.19.0.tar.gz",
+        "https://mirror.bazel.build/github.com/bazelbuild/bazel-toolchains/archive/0.28.4.tar.gz",
+        "https://github.com/bazelbuild/bazel-toolchains/archive/0.28.4.tar.gz",
     ],
-    sha256 = "9fb16af4d4836c8222142e54c9efa0bb5fc562ffc893ce2abeac3e25daead144",
 )
 
-#http_archive(
-#    name = "bazel_gazelle",
-#    sha256 = "3c681998538231a2d24d0c07ed5a7658cb72bfb5fd4bf9911157c0e9ac6a2687",
-#    urls = ["https://github.com/bazelbuild/bazel-gazelle/releases/download/0.17.0/bazel-gazelle-0.17.0.tar.gz"],
-#)
+load("@bazel_toolchains//rules:rbe_repo.bzl", "rbe_autoconfig")
 
-git_repository(
+http_archive(
+    name = "io_bazel_rules_go",
+    urls = [
+        "https://storage.googleapis.com/bazel-mirror/github.com/bazelbuild/rules_go/releases/download/0.19.1/rules_go-0.19.1.tar.gz",
+        "https://github.com/bazelbuild/rules_go/releases/download/0.19.1/rules_go-0.19.1.tar.gz",
+    ],
+    sha256 = "8df59f11fb697743cbb3f26cfb8750395f30471e9eabde0d174c3aebc7a1cd39",
+)
+
+http_archive(
     name = "bazel_gazelle",
-    shallow_since = "",
-    commit = "f841893849567e717eb4a7b17ede577a186e45a6",
-    remote = "https://github.com/bazelbuild/bazel-gazelle.git",
+    urls = [
+        "https://storage.googleapis.com/bazel-mirror/github.com/bazelbuild/bazel-gazelle/releases/download/0.18.1/bazel-gazelle-0.18.1.tar.gz",
+        "https://github.com/bazelbuild/bazel-gazelle/releases/download/0.18.1/bazel-gazelle-0.18.1.tar.gz",
+    ],
+    sha256 = "be9296bfd64882e3c08e3283c58fcb461fa6dd3c171764fcc4cf322f60615a9b",
 )
 
 # proto_library, cc_proto_library, and java_proto_library rules implicitly
@@ -47,16 +55,6 @@ http_archive(
     url = "https://github.com/bazelbuild/bazel-skylib/releases/download/{}/bazel-skylib.{}.tar.gz".format(skylib_version, skylib_version),
 )
 
-# Add Docker toolchains
-http_archive(
-    name = "bazel_toolchains",
-    sha256 = "68e7678473090542e679ce7e6aa8a3ba5669577dede2b404f9865d556bd99f10",
-    strip_prefix = "bazel-toolchains-0.28.0",
-    urls = [
-        "https://github.com/bazelbuild/bazel-toolchains/archive/0.28.0.tar.gz",
-    ],
-)
-
 load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
 
 gazelle_dependencies(go_sdk = "go_sdk")
@@ -79,12 +77,11 @@ go_rules_dependencies()
 
 go_register_toolchains()
 
-# Download the rules_docker repository at release v0.7.0
 http_archive(
     name = "io_bazel_rules_docker",
-    sha256 = "aed1c249d4ec8f703edddf35cbe9dfaca0b5f5ea6e4cd9e83e99f3b0d1136c3d",
-    strip_prefix = "rules_docker-0.7.0",
-    urls = ["https://github.com/bazelbuild/rules_docker/archive/v0.7.0.tar.gz"],
+    sha256 = "e513c0ac6534810eb7a14bf025a0f159726753f97f74ab7863c650d26e01d677",
+    strip_prefix = "rules_docker-0.9.0",
+    urls = ["https://github.com/bazelbuild/rules_docker/archive/v0.9.0.tar.gz"],
 )
 
 load(
@@ -100,12 +97,6 @@ load(
 )
 
 container_repositories()
-
-# This enables Google Remote Build Execution toolchains
-# https://cloud.google.com/remote-build-execution/docs/set-up/remote-environment#add_a_toolchain
-load("@bazel_toolchains//rules:rbe_repo.bzl", "rbe_autoconfig")
-
-rbe_autoconfig(name = "rbe_default")
 
 go_repository(
     name = "co_honnef_go_tools",
