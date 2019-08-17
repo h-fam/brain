@@ -2,7 +2,6 @@ package log
 
 import (
 	"bytes"
-	"io"
 	"os"
 	"strings"
 	"testing"
@@ -10,142 +9,10 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func TestLoggerLog(t *testing.T) {
-	tests := []struct {
-		desc        string
-		fields      Fields
-		args        []interface{}
-		wantOut     io.Writer
-		wantLogType string
-	}{{
-		desc:        "empty default log case",
-		fields:      Fields{},
-		wantOut:     os.Stderr,
-		wantLogType: "APPLOG",
-	}, {
-		desc:        "wrong level name log case",
-		fields:      Fields{"level": "abc"},
-		args:        []interface{}{""},
-		wantOut:     os.Stderr,
-		wantLogType: "APPLOG",
-	}, {
-		desc:        "wrong level name value log case",
-		fields:      Fields{"level": 10},
-		args:        []interface{}{""},
-		wantOut:     os.Stderr,
-		wantLogType: "APPLOG",
-	}, {
-		desc:        "wrong log type name value log case",
-		fields:      Fields{"type": 10},
-		args:        []interface{}{""},
-		wantOut:     os.Stderr,
-		wantLogType: "APPLOG",
-	}, {
-		desc:        "with log level case",
-		fields:      Fields{"level": "fatal"},
-		args:        []interface{}{"testing logs"},
-		wantOut:     os.Stderr,
-		wantLogType: "APPLOG",
-	}, {
-		desc: "job log case",
-		fields: Fields{
-			"type":  "job",
-			"level": "trace",
-			"jobId": "1234",
-		},
-		args:        []interface{}{"got job id"},
-		wantOut:     os.Stderr,
-		wantLogType: "JOB",
-	}, {
-		desc: "workflow log case",
-		fields: Fields{
-			"type":  "workflow",
-			"level": "warn",
-		},
-		args:        []interface{}{"workflow log message"},
-		wantOut:     os.Stderr,
-		wantLogType: "WORKFLOW",
-	}}
-	for _, tt := range tests {
-		t.Run(tt.desc, func(t *testing.T) {
-			lgr := logObj().WithFields(tt.fields)
-			loggerObj := lgr.(logger)
-			lgr.Log(tt.args...)
-			if loggerObj.entry.Logger.Out != tt.wantOut {
-				t.Fatalf("Log(%v) failed: got %v, %v", tt.args, loggerObj.entry.Logger.Out, tt.wantOut)
-			}
-			if loggerObj.entry.Data["type"].(string) != tt.wantLogType {
-				t.Fatalf("Log(%v) failed: got %v, %v", tt.args, loggerObj.entry.Logger.Out, tt.wantOut)
-			}
-		})
-	}
-}
-
-func TestLoggerLogf(t *testing.T) {
-	tests := []struct {
-		desc        string
-		fields      Fields
-		format      string
-		args        []interface{}
-		wantOut     io.Writer
-		wantLogType string
-	}{
-		{
-			desc:        "empty default log case",
-			fields:      Fields{},
-			wantOut:     os.Stderr,
-			wantLogType: "APPLOG",
-		},
-		{
-			desc:        "with log level case",
-			fields:      Fields{"level": "fatal"},
-			format:      "%s",
-			args:        []interface{}{"testing logs"},
-			wantOut:     os.Stderr,
-			wantLogType: "APPLOG",
-		},
-		{
-			desc: "job log case",
-			fields: Fields{
-				"type":  "job",
-				"level": "warn",
-				"jobId": "1234",
-			},
-			format:      "%s",
-			args:        []interface{}{"got job id"},
-			wantOut:     os.Stderr,
-			wantLogType: "JOB",
-		},
-		{
-			desc: "workflow log case",
-			fields: Fields{
-				"type":  "workflow",
-				"level": "warn",
-			},
-			format:      "%s",
-			args:        []interface{}{"workflow log message"},
-			wantOut:     os.Stderr,
-			wantLogType: "WORKFLOW",
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.desc, func(t *testing.T) {
-			lgr := logObj().WithFields(tt.fields)
-			loggerObj := lgr.(logger)
-			lgr.Logf(tt.format, tt.args...)
-			if loggerObj.entry.Logger.Out != tt.wantOut {
-				t.Fatalf("Logf(%v) failed: got %v, %v", tt.args, loggerObj.entry.Logger.Out, tt.wantOut)
-			}
-			if loggerObj.entry.Data["type"].(string) != tt.wantLogType {
-				t.Fatalf("Logf(%v) failed: got %v, %v", tt.args, loggerObj.entry.Logger.Out, tt.wantOut)
-			}
-		})
-	}
-}
-
 func TestLoggerDebug(t *testing.T) {
 	var buffer bytes.Buffer
 	log := logObj()
+	log.SetLevel(DebugLevel)
 	log.SetOutput(&buffer)
 	tests := []struct {
 		desc string
@@ -168,7 +35,7 @@ func TestLoggerDebug(t *testing.T) {
 			output := buffer.String()
 			buffer.Reset()
 			if strings.TrimRight(output, "\n\r") != tt.want {
-				t.Errorf("Debug(%v) failed: got %v, %v", tt.args, output, tt.want)
+				t.Errorf("Debug(%v) failed: got %v, want %v", tt.args, output, tt.want)
 			}
 		})
 	}
@@ -177,6 +44,7 @@ func TestLoggerDebug(t *testing.T) {
 func TestLoggerDebugf(t *testing.T) {
 	var buffer bytes.Buffer
 	log := logObj()
+	log.SetLevel(DebugLevel)
 	log.SetOutput(&buffer)
 	tests := []struct {
 		desc   string
@@ -201,7 +69,7 @@ func TestLoggerDebugf(t *testing.T) {
 			output := buffer.String()
 			buffer.Reset()
 			if strings.TrimRight(output, "\n\r") != tt.want {
-				t.Errorf("Debugf(%v) failed: got %v, %v", tt.args, output, tt.want)
+				t.Errorf("Debugf(%v) failed: got %v, want %v", tt.args, output, tt.want)
 			}
 		})
 	}
@@ -296,7 +164,7 @@ func TestLoggerWarn(t *testing.T) {
 			output := buffer.String()
 			buffer.Reset()
 			if strings.TrimRight(output, "\n\r") != tt.want {
-				t.Errorf("Warn(%v) failed: got %v, %v", tt.args, output, tt.want)
+				t.Errorf("Warn(%v) failed: got %v, want %v", tt.args, output, tt.want)
 			}
 		})
 	}
@@ -329,7 +197,7 @@ func TestLoggerWarnf(t *testing.T) {
 			output := buffer.String()
 			buffer.Reset()
 			if strings.TrimRight(output, "\n\r") != tt.want {
-				t.Errorf("Warnf(%v) failed: got %v, %v", tt.args, output, tt.want)
+				t.Errorf("Warnf(%v) failed: got %v, want %v", tt.args, output, tt.want)
 			}
 		})
 	}
@@ -360,7 +228,7 @@ func TestLoggerError(t *testing.T) {
 			output := buffer.String()
 			buffer.Reset()
 			if strings.TrimRight(output, "\n\r") != tt.want {
-				t.Errorf("Error(%v) failed: got %v, %v", tt.args, output, tt.want)
+				t.Errorf("Error(%v) failed: got %v, want %v", tt.args, output, tt.want)
 			}
 		})
 	}
@@ -400,7 +268,7 @@ func TestLoggerErrorf(t *testing.T) {
 }
 
 func logObj() logger {
-	l := New().(logger)
+	l := New(AppLog).(logger)
 	// remove timestamp from test output
 	l.entry.Logger.Formatter.(*logrus.TextFormatter).FullTimestamp = false
 	l.entry.Logger.Formatter.(*logrus.TextFormatter).DisableTimestamp = true
@@ -409,7 +277,8 @@ func logObj() logger {
 
 func ExampleLogger() {
 	test := "testing"
-	l := New()
+	l := New(AppLog)
+	l.SetLevel(DebugLevel)
 	// remove timestamp from test output
 	l.(logger).entry.Logger.Formatter.(*logrus.TextFormatter).FullTimestamp = false
 	l.(logger).entry.Logger.Formatter.(*logrus.TextFormatter).DisableTimestamp = true
@@ -441,17 +310,10 @@ func ExampleLogger() {
 		"field1": "value1",
 	}).Infof("infof message with fields %s", test)
 	l.WithFields(Fields{
-		"type": "workflow",
-	}).Log("workflow info log")
-	l.WithFields(Fields{
-		"type":  "workflow",
-		"level": "debug",
-	}).Log("workflow debug log")
-	l.WithFields(Fields{
 		"jobId": "12345",
 		"type":  "job",
 		"level": "warn",
-	}).Logf("job log with warn log %s", test)
+	}).Infof("job log with warn log %s", test)
 
 	// Output:
 	// level=debug msg="debug message" type=APPLOG
@@ -466,8 +328,7 @@ func ExampleLogger() {
 	// level=info msg="info message with fields" field1=value1 type=APPLOG
 	// level=info msg="infof message testing" type=APPLOG
 	// level=info msg="infof message with fields testing" field1=value1 type=APPLOG
-	// level=info msg="workflow info log" type=WORKFLOW
-	// level=debug msg="workflow debug log" fields.level=debug type=WORKFLOW
-	// level=warning msg="job log with warn log testing" fields.level=warn jobId=12345 type=JOB
+	// level=error msg="Field \"type\" cannot be assigned by users.  Discarding" type=APPLOG
+	// level=info msg="job log with warn log testing" fields.level=warn jobId=12345 type=APPLOG
 
 }

@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	"source.cloud.google.com/hines-alloc/brain/loader/cases"
-	"source.cloud.google.com/hines-alloc/brain/loader/cloud"
+	"hines-alloc/brain/loader/cases"
+	"hines-alloc/brain/loader/cloud"
 )
 
 func Add(ctx context.Context, parent *cobra.Command) {

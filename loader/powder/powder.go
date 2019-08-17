@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"cloud.google.com/go/datastore"
-	"source.cloud.google.com/hines-alloc/brain/loader/manufacturer"
+	"hines-alloc/brain/loader/manufacturer"
 )
 
 type Powder struct {

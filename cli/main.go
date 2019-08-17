@@ -3,8 +3,9 @@ package main
 import (
 	"fmt"
 
-	"gopkg.in/yaml.v2"
-	"source.cloud.google.com/hines-alloc/brain/cli/commands"
+	"hines-alloc/brain/cli/commands"
+
+	yaml "gopkg.in/yaml.v2"
 )
 
 func main() {

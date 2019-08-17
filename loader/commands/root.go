@@ -4,12 +4,12 @@ import (
 	"context"
 
 	"github.com/spf13/cobra"
-	"source.cloud.google.com/hines-alloc/brain/loader/commands/bullet"
-	"source.cloud.google.com/hines-alloc/brain/loader/commands/caliber"
-	"source.cloud.google.com/hines-alloc/brain/loader/commands/cases"
-	"source.cloud.google.com/hines-alloc/brain/loader/commands/manufacturer"
-	"source.cloud.google.com/hines-alloc/brain/loader/commands/powder"
-	"source.cloud.google.com/hines-alloc/brain/loader/commands/primer"
+	"hines-alloc/brain/loader/commands/bullet"
+	"hines-alloc/brain/loader/commands/caliber"
+	"hines-alloc/brain/loader/commands/cases"
+	"hines-alloc/brain/loader/commands/manufacturer"
+	"hines-alloc/brain/loader/commands/powder"
+	"hines-alloc/brain/loader/commands/primer"
 )
 
 var root = &cobra.Command{
