@@ -11,7 +11,7 @@ import (
 
 func TestLoggerDebug(t *testing.T) {
 	var buffer bytes.Buffer
-	log := logObj()
+	log := fakeLogger()
 	log.SetLevel(DebugLevel)
 	log.SetOutput(&buffer)
 	tests := []struct {
@@ -43,7 +43,7 @@ func TestLoggerDebug(t *testing.T) {
 
 func TestLoggerDebugf(t *testing.T) {
 	var buffer bytes.Buffer
-	log := logObj()
+	log := fakeLogger()
 	log.SetLevel(DebugLevel)
 	log.SetOutput(&buffer)
 	tests := []struct {
@@ -77,7 +77,7 @@ func TestLoggerDebugf(t *testing.T) {
 
 func TestLoggerInfo(t *testing.T) {
 	var buffer bytes.Buffer
-	log := logObj()
+	log := fakeLogger()
 	log.SetOutput(&buffer)
 	tests := []struct {
 		desc string
@@ -108,7 +108,7 @@ func TestLoggerInfo(t *testing.T) {
 
 func TestLoggerInfof(t *testing.T) {
 	var buffer bytes.Buffer
-	log := logObj()
+	log := fakeLogger()
 	log.SetOutput(&buffer)
 	tests := []struct {
 		desc   string
@@ -141,7 +141,7 @@ func TestLoggerInfof(t *testing.T) {
 
 func TestLoggerWarn(t *testing.T) {
 	var buffer bytes.Buffer
-	log := logObj()
+	log := fakeLogger()
 	log.SetOutput(&buffer)
 	tests := []struct {
 		desc string
@@ -172,7 +172,7 @@ func TestLoggerWarn(t *testing.T) {
 
 func TestLoggerWarnf(t *testing.T) {
 	var buffer bytes.Buffer
-	log := logObj()
+	log := fakeLogger()
 	log.SetOutput(&buffer)
 	tests := []struct {
 		desc   string
@@ -205,7 +205,7 @@ func TestLoggerWarnf(t *testing.T) {
 
 func TestLoggerError(t *testing.T) {
 	var buffer bytes.Buffer
-	log := logObj()
+	log := fakeLogger()
 	log.SetOutput(&buffer)
 	tests := []struct {
 		desc string
@@ -236,7 +236,7 @@ func TestLoggerError(t *testing.T) {
 
 func TestLoggerErrorf(t *testing.T) {
 	var buffer bytes.Buffer
-	log := logObj()
+	log := fakeLogger()
 	log.SetOutput(&buffer)
 	tests := []struct {
 		desc   string
@@ -267,7 +267,7 @@ func TestLoggerErrorf(t *testing.T) {
 	}
 }
 
-func logObj() Logger {
+func fakeLogger() Logger {
 	l := New(AppLog)
 	// remove timestamp from test output
 	l.entry.Logger.Formatter.(*logrus.TextFormatter).FullTimestamp = false
