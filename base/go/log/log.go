@@ -64,14 +64,12 @@ func ParseLevel(lvl string) (Level, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (level *Level) UnmarshalText(text []byte) error {
-	l, err := ParseLevel(string(text))
+func (l *Level) UnmarshalText(text []byte) error {
+	lvl, err := ParseLevel(string(text))
 	if err != nil {
 		return err
 	}
-
-	*level = Level(l)
-
+	*l = Level(lvl)
 	return nil
 }
 
@@ -106,36 +104,21 @@ const (
 	DebugLevel
 )
 
-// Logger is the interface for loggers used in atom apps.
-type Logger interface {
-	Debug(...interface{})
-	Debugf(string, ...interface{})
-	Info(...interface{})
-	Infof(string, ...interface{})
-	Warn(...interface{})
-	Warnf(string, ...interface{})
-	Error(...interface{})
-	Errorf(string, ...interface{})
-	WithFields(fields Fields) Logger
-	SetOutput(w io.Writer)
-	SetLevel(Level)
-}
-
-type logger struct {
+// Logger is the base logger used in Atom apps.
+type Logger struct {
 	entry *logrus.Entry
 }
 
-// New creates and return logger. This logger use a simple text
+// New creates a new logger. This logger uses a simple text
 // formatter. The default output will be to os.Stderr. This
 // logger will also have all entries appended with the provided
 // LogType.
 func New(t LogType) Logger {
-	return logger{
+	return Logger{
 		entry: &logrus.Entry{
 			Logger: &logrus.Logger{
 				Out: os.Stderr,
 				Formatter: &logrus.TextFormatter{
-					DisableColors: true,
 					FullTimestamp: true,
 				},
 				Hooks:        make(logrus.LevelHooks),
@@ -149,42 +132,42 @@ func New(t LogType) Logger {
 }
 
 // Debug logs a message at level Debug on the standard logger.
-func (l logger) Debug(args ...interface{}) {
+func (l Logger) Debug(args ...interface{}) {
 	l.entry.Debug(args...)
 }
 
 // Debugf logs a message at level Debug on the standard logger.
-func (l logger) Debugf(format string, args ...interface{}) {
+func (l Logger) Debugf(format string, args ...interface{}) {
 	l.entry.Debugf(format, args...)
 }
 
 // Info logs a message at level Info on the standard logger.
-func (l logger) Info(args ...interface{}) {
+func (l Logger) Info(args ...interface{}) {
 	l.entry.Info(args...)
 }
 
 // Infof logs a message at level Info on the standard logger.
-func (l logger) Infof(format string, args ...interface{}) {
+func (l Logger) Infof(format string, args ...interface{}) {
 	l.entry.Infof(format, args...)
 }
 
 // Warn logs a message at level Warn on the standard logger.
-func (l logger) Warn(args ...interface{}) {
+func (l Logger) Warn(args ...interface{}) {
 	l.entry.Warn(args...)
 }
 
 // Warnf logs a message at level Warn on the standard logger.
-func (l logger) Warnf(format string, args ...interface{}) {
+func (l Logger) Warnf(format string, args ...interface{}) {
 	l.entry.Warnf(format, args...)
 }
 
 // Error logs a message at level Error on the standard logger.
-func (l logger) Error(args ...interface{}) {
+func (l Logger) Error(args ...interface{}) {
 	l.entry.Error(args...)
 }
 
 // Errorf logs a message at level Error on the standard logger.
-func (l logger) Errorf(format string, args ...interface{}) {
+func (l Logger) Errorf(format string, args ...interface{}) {
 	l.entry.Errorf(format, args...)
 }
 
@@ -192,24 +175,84 @@ func (l logger) Errorf(format string, args ...interface{}) {
 // "type" cannot be used by users. Duplicate fields will also
 // be removed. If you need a different type log use
 // log.New(<LogType>).
-func (l logger) WithFields(fields Fields) Logger {
+func (l Logger) WithFields(fields Fields) Logger {
 	if _, ok := fields["type"]; ok {
 		l.Errorf("Field \"type\" cannot be assigned by users.  Discarding")
 		delete(fields, "type")
 	}
-	return logger{entry: l.entry.WithFields(fields)}
+	return Logger{entry: l.entry.WithFields(fields)}
 }
 
 // SetOutput sets the output to desired io.Writer like stdout, stderr etc
-func (l logger) SetOutput(w io.Writer) {
+func (l Logger) SetOutput(w io.Writer) {
 	l.entry.Logger.Out = w
 }
 
 // SetLevel sets the logger level for emitting the log entry.
-func (l logger) SetLevel(level Level) {
+func (l Logger) SetLevel(level Level) {
 	l.entry.Logger.SetLevel(logrus.Level(level))
 }
 
 func (lt LogType) String() string {
 	return string(lt)
+}
+
+var defaultLogger = New(AppLog)
+
+// Debug logs a message at level Debug on the standard logger.
+func Debug(args ...interface{}) {
+	defaultLogger.Debug(args...)
+}
+
+// Debugf logs a message at level Debug on the standard logger.
+func Debugf(format string, args ...interface{}) {
+	defaultLogger.Debugf(format, args...)
+}
+
+// Info logs a message at level Info on the standard logger.
+func Info(args ...interface{}) {
+	defaultLogger.Info(args...)
+}
+
+// Infof logs a message at level Info on the standard logger.
+func Infof(format string, args ...interface{}) {
+	defaultLogger.Infof(format, args...)
+}
+
+// Warn logs a message at level Warn on the standard logger.
+func Warn(args ...interface{}) {
+	defaultLogger.Warn(args...)
+}
+
+// Warnf logs a message at level Warn on the standard logger.
+func Warnf(format string, args ...interface{}) {
+	defaultLogger.Warnf(format, args...)
+}
+
+// Error logs a message at level Error on the standard logger.
+func Error(args ...interface{}) {
+	defaultLogger.Error(args...)
+}
+
+// Errorf logs a message at level Error on the standard logger.
+func Errorf(format string, args ...interface{}) {
+	defaultLogger.Errorf(format, args...)
+}
+
+// WithFields adds additional fields to the log message. Field
+// "type" cannot be used by users. Duplicate fields will also
+// be removed. If you need a different type log use
+// log.New(<LogType>).
+func WithFields(fields Fields) Logger {
+	return defaultLogger.WithFields(fields)
+}
+
+// SetOutput sets the output to desired io.Writer like stdout, stderr etc
+func SetOutput(w io.Writer) {
+	defaultLogger.SetOutput(w)
+}
+
+// SetLevel sets the logger level for emitting the log entry.
+func SetLevel(level Level) {
+	defaultLogger.SetLevel(level)
 }

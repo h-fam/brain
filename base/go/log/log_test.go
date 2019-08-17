@@ -16,7 +16,7 @@ func TestLoggerDebug(t *testing.T) {
 	log.SetOutput(&buffer)
 	tests := []struct {
 		desc string
-		l    logger
+		l    Logger
 		args []interface{}
 		want string
 	}{{
@@ -48,7 +48,7 @@ func TestLoggerDebugf(t *testing.T) {
 	log.SetOutput(&buffer)
 	tests := []struct {
 		desc   string
-		l      logger
+		l      Logger
 		format string
 		args   []interface{}
 		want   string
@@ -81,7 +81,7 @@ func TestLoggerInfo(t *testing.T) {
 	log.SetOutput(&buffer)
 	tests := []struct {
 		desc string
-		l    logger
+		l    Logger
 		args []interface{}
 		want string
 	}{{
@@ -112,7 +112,7 @@ func TestLoggerInfof(t *testing.T) {
 	log.SetOutput(&buffer)
 	tests := []struct {
 		desc   string
-		l      logger
+		l      Logger
 		format string
 		args   []interface{}
 		want   string
@@ -145,7 +145,7 @@ func TestLoggerWarn(t *testing.T) {
 	log.SetOutput(&buffer)
 	tests := []struct {
 		desc string
-		l    logger
+		l    Logger
 		args []interface{}
 		want string
 	}{{
@@ -176,7 +176,7 @@ func TestLoggerWarnf(t *testing.T) {
 	log.SetOutput(&buffer)
 	tests := []struct {
 		desc   string
-		l      logger
+		l      Logger
 		format string
 		args   []interface{}
 		want   string
@@ -209,7 +209,7 @@ func TestLoggerError(t *testing.T) {
 	log.SetOutput(&buffer)
 	tests := []struct {
 		desc string
-		l    logger
+		l    Logger
 		args []interface{}
 		want string
 	}{{
@@ -240,7 +240,7 @@ func TestLoggerErrorf(t *testing.T) {
 	log.SetOutput(&buffer)
 	tests := []struct {
 		desc   string
-		l      logger
+		l      Logger
 		format string
 		args   []interface{}
 		want   string
@@ -267,8 +267,8 @@ func TestLoggerErrorf(t *testing.T) {
 	}
 }
 
-func logObj() logger {
-	l := New(AppLog).(logger)
+func logObj() Logger {
+	l := New(AppLog)
 	// remove timestamp from test output
 	l.entry.Logger.Formatter.(*logrus.TextFormatter).FullTimestamp = false
 	l.entry.Logger.Formatter.(*logrus.TextFormatter).DisableTimestamp = true
@@ -280,10 +280,10 @@ func ExampleLogger() {
 	l := New(AppLog)
 	l.SetLevel(DebugLevel)
 	// remove timestamp from test output
-	l.(logger).entry.Logger.Formatter.(*logrus.TextFormatter).FullTimestamp = false
-	l.(logger).entry.Logger.Formatter.(*logrus.TextFormatter).DisableTimestamp = true
+	l.entry.Logger.Formatter.(*logrus.TextFormatter).FullTimestamp = false
+	l.entry.Logger.Formatter.(*logrus.TextFormatter).DisableTimestamp = true
 
-	l.(logger).SetOutput(os.Stdout)
+	l.SetOutput(os.Stdout)
 
 	l.Debug("debug message")
 	l.WithFields(Fields{
@@ -331,4 +331,80 @@ func ExampleLogger() {
 	// level=error msg="Field \"type\" cannot be assigned by users.  Discarding" type=APPLOG
 	// level=info msg="job log with warn log testing" fields.level=warn jobId=12345 type=APPLOG
 
+}
+
+func ExampleDefault() {
+	test := "testing"
+	// remove timestamp from test output
+	defaultLogger.entry.Logger.Formatter.(*logrus.TextFormatter).DisableTimestamp = true
+	SetLevel(DebugLevel)
+	SetOutput(os.Stdout)
+
+	Debug("debug message")
+	WithFields(Fields{
+		"field1": "value1",
+	}).Debug("debug message with fields")
+	Debugf("debugf message %s", test)
+	WithFields(Fields{
+		"field1": "value1",
+	}).Debugf("debugf message %s", test)
+	Warn("warn message")
+	WithFields(Fields{
+		"field1": "value1",
+	}).Warn("warn message with fields")
+	Warnf("warnf message %s", test)
+	WithFields(Fields{
+		"field1": "value1",
+	}).Warnf("warnf message with fields")
+	Info("info message")
+	WithFields(Fields{
+		"field1": "value1",
+	}).Info("info message with fields")
+	Infof("infof message %s", test)
+	WithFields(Fields{
+		"field1": "value1",
+	}).Infof("infof message with fields %s", test)
+	WithFields(Fields{
+		"jobId": "12345",
+		"type":  "job",
+		"level": "warn",
+	}).Infof("job log with warn log %s", test)
+	Error("Error happened")
+	Errorf("Error with formatting: %s", "some data")
+
+	// Output:
+	// level=debug msg="debug message" type=APPLOG
+	// level=debug msg="debug message with fields" field1=value1 type=APPLOG
+	// level=debug msg="debugf message testing" type=APPLOG
+	// level=debug msg="debugf message testing" field1=value1 type=APPLOG
+	// level=warning msg="warn message" type=APPLOG
+	// level=warning msg="warn message with fields" field1=value1 type=APPLOG
+	// level=warning msg="warnf message testing" type=APPLOG
+	// level=warning msg="warnf message with fields" field1=value1 type=APPLOG
+	// level=info msg="info message" type=APPLOG
+	// level=info msg="info message with fields" field1=value1 type=APPLOG
+	// level=info msg="infof message testing" type=APPLOG
+	// level=info msg="infof message with fields testing" field1=value1 type=APPLOG
+	// level=error msg="Field \"type\" cannot be assigned by users.  Discarding" type=APPLOG
+	// level=info msg="job log with warn log testing" fields.level=warn jobId=12345 type=APPLOG
+	// level=error msg="Error happened" type=APPLOG
+	// level=error msg="Error with formatting: some data" type=APPLOG
+
+}
+
+func TestLevels(t *testing.T) {
+	l := New(AppLog)
+	for _, level := range AllLevels {
+		lvl, err := ParseLevel(level.String())
+		if err != nil {
+			t.Fatalf("ParseLevel() failed: error %v", err)
+		}
+		if lvl != level {
+			t.Fatalf("Failed to regenerate level from string: %v", level)
+		}
+		l.SetLevel(level)
+		if l.entry.Logger.GetLevel() != logrus.Level(level) {
+			t.Fatalf("SetLevel(%q) failed: got %v, want %v", level, l.entry.Logger.GetLevel(), logrus.Level(level))
+		}
+	}
 }
