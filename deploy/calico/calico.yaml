@@ -42,6 +42,10 @@ data:
           "type": "portmap",
           "snat": true,
           "capabilities": {"portMappings": true}
+        },
+        {
+          "type": "bandwidth",
+          "capabilities": {"bandwidth": true}
         }
       ]
     }
@@ -342,6 +346,12 @@ rules:
       - list
       # Used to discover Typhas.
       - get
+  # Pod CIDR auto-detection on kubeadm needs access to config maps.
+  - apiGroups: [""]
+    resources:
+      - configmaps
+    verbs:
+      - get
   - apiGroups: [""]
     resources:
       - nodes/status
@@ -449,6 +459,7 @@ rules:
       - daemonsets
     verbs:
       - get
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -495,7 +506,7 @@ spec:
         scheduler.alpha.kubernetes.io/critical-pod: ''
     spec:
       nodeSelector:
-        beta.kubernetes.io/os: linux
+        kubernetes.io/os: linux
       hostNetwork: true
       tolerations:
         # Make sure calico-node gets scheduled on all nodes.
@@ -516,7 +527,7 @@ spec:
         # It can be deleted if this is a fresh installation, or if you have already
         # upgraded to use calico-ipam.
         - name: upgrade-ipam
-          image: calico/cni:v3.11.2
+          image: calico/cni:v3.13.0
           command: ["/opt/cni/bin/calico-ipam", "-upgrade"]
           env:
             - name: KUBERNETES_NODE_NAME
@@ -538,7 +549,7 @@ spec:
         # This container installs the CNI binaries
         # and CNI network config file on each node.
         - name: install-cni
-          image: calico/cni:v3.11.2
+          image: calico/cni:v3.13.0
           command: ["/install-cni.sh"]
           env:
             # Name of the CNI config file to create.
@@ -574,7 +585,7 @@ spec:
         # Adds a Flex Volume Driver that creates a per-pod Unix Domain Socket to allow Dikastes
         # to communicate with Felix over the Policy Sync API.
         - name: flexvol-driver
-          image: calico/pod2daemon-flexvol:v3.11.2
+          image: calico/pod2daemon-flexvol:v3.13.0
           volumeMounts:
           - name: flexvol-driver-host
             mountPath: /host/driver
@@ -585,7 +596,7 @@ spec:
         # container programs network policy and routes on each
         # host.
         - name: calico-node
-          image: calico/node:v3.11.2
+          image: calico/node:v3.13.0
           env:
             # Use Kubernetes API as the backing datastore.
             - name: DATASTORE_TYPE
@@ -622,8 +633,8 @@ spec:
             # The default IPv4 pool to create on startup if none exists. Pod IPs will be
             # chosen from this range. Changing this value after installation will have
             # no effect. This should fall within `--cluster-cidr`.
-            - name: CALICO_IPV4POOL_CIDR
-              value: "10.0.0.0/8"
+            # - name: CALICO_IPV4POOL_CIDR
+            #   value: "192.168.0.0/16"
             # Disable file logging so `kubectl logs` works.
             - name: CALICO_DISABLE_FILE_LOGGING
               value: "true"
@@ -749,7 +760,7 @@ spec:
         scheduler.alpha.kubernetes.io/critical-pod: ''
     spec:
       nodeSelector:
-        beta.kubernetes.io/os: linux
+        kubernetes.io/os: linux
       tolerations:
         # Mark the pod as a critical add-on for rescheduling.
         - key: CriticalAddonsOnly
@@ -760,7 +771,7 @@ spec:
       priorityClassName: system-cluster-critical
       containers:
         - name: calico-kube-controllers
-          image: calico/kube-controllers:v3.11.2
+          image: calico/kube-controllers:v3.13.0
           env:
             # Choose which controllers to run.
             - name: ENABLED_CONTROLLERS
