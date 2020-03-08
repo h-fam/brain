@@ -1,0 +1,7 @@
+sudo kubeadm init --pod-network-cidr=10.0.0.0/8
+kubectl apply -f deploy/calico/calico.yaml
+kubectl apply -f deploy/metallb/metallb.yaml
+kubectl apply -f deploy/metallb/config.yaml
+
+
+
