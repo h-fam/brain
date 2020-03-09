@@ -1,3 +1,4 @@
+
 Your Kubernetes control-plane has initialized successfully!
 
 To start using your cluster, you need to run the following as a regular user:
@@ -12,6 +13,5 @@ Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
 
 Then you can join any number of worker nodes by running the following on each as root:
 
-kubeadm join 192.168.1.23:6443 --token nuj3tj.3256disnjeh07epo \
-    --discovery-token-ca-cert-hash sha256:a14305a250488c17058a41b8255830f7ba30cef603c52439c84f0a37c193d9ad 
-
+kubeadm join 192.168.1.23:6443 --token sbjvop.ufmmikt53ltq1oyy \
+    --discovery-token-ca-cert-hash sha256:2d43901ac3bd934cecacb081d58ac91eedbebff467b8ee9de066f459b20f650a 
