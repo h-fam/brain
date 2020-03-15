@@ -2,66 +2,111 @@ package main
 import (
     "fmt"
     "strings"
+    "strconv"
+    "bufio"
+    "io"
+    "os"
 )
 
 type Stack struct {
     v []int32
 }
+
+func (s *Stack) Peek() (int32, error) {
+    if len(s.v) == 0 {
+        return 0, fmt.Errorf("empty stack")
+    }
+    return s.v[0], nil
+}
 func (s *Stack) Push(v int32) {
   s.v = append([]int32{v}, s.v...)
 }
 
-func (s *Stack) Pop() int32 {
-  v := s.v[0]
-  s.v = s.v[1:]
-  return v
+func (s *Stack) Pop() (int32, error) {
+    if len(s.v) == 0 {
+        return 0, fmt.Errorf("empty stack")
+    }
+    v := s.v[0]
+    s.v = s.v[1:]
+    return v,nil
 }
 
 type ReallyBadQueue struct {
-    s1 *Stack
-    s2 *Stack
+    eStack *Stack
+    dStack *Stack
 }
 
-func (r ReallyBadQueue) Enqueue(v int32) {
-    r.s1.Push(v)
+func (r *ReallyBadQueue) Enqueue(v int32) {
+    r.eStack.Push(v)
 }
 
-func (r ReallyBadQueue) Dequeue() int32 {
-  return r.s1.Pop()
-}
-
-func (r ReallyBadQueue) Peek() int32 {
-    v := r.s1.Pop()
-    r.s1.Push(v)
-    return v
-}
-
-func (r ReallyBadQueue) String() string {
-    s := "{s1:"
-    var vals []string
-    for _, v := range r.s1.v {
-        vals = append(vals, fmt.Sprintf("%d", v))
+func (r ReallyBadQueue) Dequeue() (int32, error) {
+    if len(r.dStack.v) == 0 {
+        r.fill()
     }
-    s = fmt.Sprintf("%s[%s], s2:", s, strings.Join(vals, ","))
-    vals = nil
-    for _, v := range r.s2.v {
-        vals = append(vals, fmt.Sprintf("%d", v))
-    }
-    s = fmt.Sprintf("%s[%s]}", s, strings.Join(vals, ","))
-    return s
+    return r.dStack.Pop()
 }
+
+func (r ReallyBadQueue) fill() {
+    for {
+        t, err := r.eStack.Pop()
+        if err != nil {
+            break
+        }
+        r.dStack.Push(t)
+    }
+
+}
+func (r ReallyBadQueue) Peek() (int32, error) {
+    if len(r.dStack.v) == 0 {
+      r.fill()
+    }
+    return r.dStack.Peek()
+}
+
 func main() {
  //Enter your code here. Read input from STDIN. Print output to STDOUT
- r := ReallyBadQueue{
-     s1: &Stack{},
-     s2: &Stack{},
- }
- r.Enqueue(1)
- fmt.Println(r, r.Peek())
- r.Enqueue(2)
- fmt.Println(r, r.Peek())
- r.Enqueue(3)
- fmt.Println(r, r.Peek())
- r.Dequeue()
- fmt.Println(r, r.Peek())
+   r := &ReallyBadQueue{
+        dStack: &Stack{},
+        eStack: &Stack{},
+   }
+
+    reader := bufio.NewReaderSize(os.Stdin, 1024 * 1024)
+
+    qTemp, err := strconv.ParseInt(readLine(reader), 10, 64)
+    checkError(err)
+    queries := int32(qTemp)
+
+    for i := 0; i < int(queries); i++ {
+        nmx := strings.Split(readLine(reader), " ")
+        qTemp, err := strconv.ParseInt(nmx[0], 10, 64)
+        checkError(err)
+        q := int32(qTemp)
+        switch q {
+        case 1:
+            vTemp, err := strconv.ParseInt(nmx[1], 10, 64)
+            checkError(err)
+            r.Enqueue(int32(vTemp))
+        case 2:
+          r.Dequeue()
+        case 3:
+          v, _ := r.Peek()
+          fmt.Println(v)
+        }
+    }
+}
+
+func readLine(reader *bufio.Reader) string {
+    str, _, err := reader.ReadLine()
+    if err == io.EOF {
+        return ""
+    }
+
+    return strings.TrimRight(string(str), "\r\n")
+}
+
+func checkError(err error) {
+    if err != nil {
+        panic(err)
+    }
 }
