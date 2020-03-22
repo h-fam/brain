@@ -136,19 +136,13 @@ type Stack struct {
     v []int32
 }
 
-func (s *Stack)  Max() (int32, error) {
-    if len(s.v) == 0 {
-      return 0, fmt.Errorf("empty stack")
-    }
-    return s.v[0], nil
-}
-
 func (s *Stack) Peek() (int32, error) {
     if len(s.v) == 0 {
         return 0, fmt.Errorf("empty stack")
     }
     return s.v[0], nil
 }
+
 func (s *Stack) Push(v int32) {
     s.v = append([]int32{v}, s.v...)
 }
@@ -166,40 +160,50 @@ func (s *Stack) Pop() (int32, error) {
  * Complete the waiter function below.
  */
 func waiter(number []int32, q int32) []int32 {
-    /*
-     * Write your code here.
-     */
-    l := len(number)
-    sStack := &Stack{v: make([]int32, l)}
-    for i:=0;i<l;i++{
-      sStack.v[l-i-1] = number[i]
+  l := len(number)
+  stacks := make(Stacks, q)
+  for i:=0;i<int(q);i++{
+    stacks[i] = &Stack{}
+  }
+  tStack := &Stack{}
+  for i:=0;i<l;i++{
+    v := number[i]
+    found := false
+    for j:=0;j<int(q);j++{
+      p := primes[j]
+      if v < p {
+        break
+      }
+      if v % p == 0 {
+        stacks[j].Push(v)
+        found = true
+        break
+      }
     }
-    var stacks Stacks
-    for i:=0;i<int(q);i++{
-      p := primes[i]
-      stacks = append(stacks, &Stack{})
-      tStack := &Stack{}
-      for {
-         v, err := sStack.Pop()
-         if err != nil {
-             break
-         }
-         if v % p == 0 {
-             stacks[i].Push(v)
-         } else {
-             tStack.Push(v)
-         }
-       }
-       sStack = tStack
-       fmt.Println(stacks, "\n")
-       fmt.Println("Remaining:\n", sStack.v)
+    if !found {
+      tStack.Push(v)
     }
-    var n []int32
-    for _, s := range stacks {
-      n = append(n, s.v...)
+  }
+  fmt.Println(stacks, "\n")
+  fmt.Println("Remaining:\n", tStack.v)
+  var n []int32
+  for i, s := range stacks {
+    if i % 2 == 0 {
+      for j:=len(s.v)-1;j>=0;j--{
+        n = append(n, s.v[j])
+      }
+      continue
     }
-    n = append(n, sStack.v...)
+    n = append(n, s.v...)
+  }
+  if q % 2 == 0 {
+    for j:=len(s.v)-1;j>=0;j--{
+      n = append(n, s.v[j])
+    }
     return n
+  }
+  n = append(n, tStack.v...)
+  return n
 }
 
 func main() {
