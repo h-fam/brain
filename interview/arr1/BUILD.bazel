@@ -1,0 +1,14 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["arr1.go"],
+    importpath = "hines-alloc/brain/interview/arr1",
+    visibility = ["//visibility:private"],
+)
+
+go_binary(
+    name = "arr1",
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)
