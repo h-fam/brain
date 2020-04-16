@@ -17,5 +17,8 @@ kubectl get pods --all-namespaces
 
 virtctl start testvm
 kubectl get vmis
+virtctl console testvm
 
 $ kubectl krew install virt
+
+echo $(kubectl get deployment.apps virt-operator -n kubevirt -o jsonpath='{.spec.template.spec.containers[0].env[?(@.name=="KUBEVIRT_VERSION")].value}')
