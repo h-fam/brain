@@ -2,6 +2,7 @@ apiVersion: kubevirt.io/v1alpha3
 kind: VirtualMachine
 metadata:
   name: testvm1
+  namespace: marcus
 spec:
   running: false
   template:

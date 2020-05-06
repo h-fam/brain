@@ -50,3 +50,18 @@ kubectl apply -f deploy/metallb/config.yaml
 
 
 
+#fix networkmanager to resolve from kubedns
+marcus@spot:/etc/NetworkManager$ sudo vi NetworkManager.conf 
+[sudo] password for marcus: 
+marcus@spot:/etc/NetworkManager$ cat NetworkManager.conf 
+[main]
+dns=dnsmasq
+plugins=ifupdown,keyfile
+
+[ifupdown]
+managed=false
+
+[device]
+wifi.scan-rand-mac-address=no
+
+root@spot:/etc/NetworkManager/dnsmasq.d# echo server=/cluster.local/10.96.0.10 > kube.conf
