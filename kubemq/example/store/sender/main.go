@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"time"
 
 	kubemq "github.com/kubemq-io/kubemq-go"
 )
@@ -22,7 +23,7 @@ func main() {
 	channel := "hello-command"
 	for i := 0; i < 1000; i++ {
 		response, err := client.ES().
-			SetId(fmt.Sprintf("some-command-id-%d", i)).
+			SetId(fmt.Sprintf("some-command-id-%v", time.Now())).
 			SetChannel(channel).
 			SetMetadata("some-metadata").
 			SetBody([]byte("hello kubemq - sending a command, please reply")).
@@ -31,7 +32,7 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		log.Printf("Response Received:\nCommandID: %s\nExecutedAt:%s\n", response.Id, response.Sent)
+		log.Printf("Response Received:\nCommandID: %s\nExecutedAt:%v\n", response.Id, response.Sent)
 	}
 
 }
