@@ -38,6 +38,14 @@ spec:
     storage: true
 
 ---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: kubevirt-cluster-critical
+value: 1000000000
+globalDefault: false
+description: "This priority class should be used for core kubevirt components only."
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -69,12 +77,67 @@ metadata:
   namespace: kubevirt
 ---
 apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    kubevirt.io: ""
+  name: kubevirt-operator
+  namespace: kubevirt
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - get
+  - list
+  - watch
+  - patch
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - create
+  - get
+  - list
+  - watch
+  - patch
+  - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    kubevirt.io: ""
+  name: kubevirt-operator-rolebinding
+  namespace: kubevirt
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kubevirt-operator
+subjects:
+- kind: ServiceAccount
+  name: kubevirt-operator
+  namespace: kubevirt
+---
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   labels:
     kubevirt.io: ""
   name: kubevirt-operator
 rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - get
+  - update
 - apiGroups:
   - kubevirt.io
   resources:
@@ -100,6 +163,12 @@ rules:
   - create
   - update
   - delete
+  - patch
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
   - patch
 - apiGroups:
   - batch
@@ -238,23 +307,6 @@ rules:
   - watch
   - patch
 - apiGroups:
-  - admissionregistration.k8s.io
-  resources:
-  - validatingwebhookconfigurations
-  - mutatingwebhookconfigurations
-  verbs:
-  - get
-  - create
-  - update
-- apiGroups:
-  - apiregistration.k8s.io
-  resources:
-  - apiservices
-  verbs:
-  - get
-  - create
-  - update
-- apiGroups:
   - ""
   resources:
   - pods
@@ -313,16 +365,6 @@ rules:
   - get
   - list
   - watch
-- apiGroups:
-  - ""
-  resources:
-  - secrets
-  verbs:
-  - get
-  - list
-  - delete
-  - update
-  - create
 - apiGroups:
   - ""
   resources:
@@ -441,6 +483,17 @@ rules:
   - nodes
   verbs:
   - patch
+  - list
+  - watch
+  - get
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
 - apiGroups:
   - ""
   resources:
@@ -464,13 +517,6 @@ rules:
   - get
   - list
   - watch
-- apiGroups:
-  - ""
-  resources:
-  - secrets
-  verbs:
-  - create
-  - get
 - apiGroups:
   - subresources.kubevirt.io
   resources:
@@ -630,22 +676,22 @@ spec:
         - "2"
         env:
         - name: OPERATOR_IMAGE
-          value: index.docker.io/kubevirt/virt-operator@sha256:84c50ed3c699265512c858a8bafa9ecd662735695ce5a09c15c13c97773f15f2
+          value: index.docker.io/kubevirt/virt-operator@sha256:08659e8856de1df248b62f18ebce52ef7e9caf077b859ef528202748952d3c5b
         - name: WATCH_NAMESPACE
           valueFrom:
             fieldRef:
               fieldPath: metadata.annotations['olm.targetNamespaces']
         - name: KUBEVIRT_VERSION
-          value: v0.28.0
+          value: v0.29.0
         - name: VIRT_API_SHASUM
-          value: sha256:5a40b1559fdb4ec5626e7fd88a89ae21a41cca124162b97f7d9f795b9f8e2be3
+          value: sha256:72b23de3b611269332a42c8939d9842470ed95c0587b743e8593f85cfa71d056
         - name: VIRT_CONTROLLER_SHASUM
-          value: sha256:25fc5313b4e2bcee20b5670efd51833ccc02b1c381de4a240e7ceeba9eecd8f5
+          value: sha256:a5efad6a25cfc979d07a36ccfedab7202438106bf794e216f4c7f062001fab3d
         - name: VIRT_HANDLER_SHASUM
-          value: sha256:d2903f3c5d38e768d9aa8015db82a5aef450db3114df9e2bb9b4f234407468c3
+          value: sha256:62b026488b6084211fd993a1f76e7fd93fa20f201c20b89bda85808bc7460848
         - name: VIRT_LAUNCHER_SHASUM
-          value: sha256:9875bb3c0b303280eee52c63b8131554a72f1635811b12370de171eb91695e6f
-        image: index.docker.io/kubevirt/virt-operator@sha256:84c50ed3c699265512c858a8bafa9ecd662735695ce5a09c15c13c97773f15f2
+          value: sha256:ee6cad8e8d425689d610b73d6f25d8cea3b1af71a776b82513ed96ec8581d198
+        image: index.docker.io/kubevirt/virt-operator@sha256:08659e8856de1df248b62f18ebce52ef7e9caf077b859ef528202748952d3c5b
         imagePullPolicy: IfNotPresent
         name: virt-operator
         ports:
@@ -663,9 +709,19 @@ spec:
           initialDelaySeconds: 5
           timeoutSeconds: 10
         resources: {}
+        volumeMounts:
+        - mountPath: /etc/virt-operator/certificates
+          name: kubevirt-operator-certs
+          readOnly: true
+      priorityClassName: kubevirt-cluster-critical
       securityContext:
         runAsNonRoot: true
       serviceAccountName: kubevirt-operator
       tolerations:
       - key: CriticalAddonsOnly
         operator: Exists
+      volumes:
+      - name: kubevirt-operator-certs
+        secret:
+          optional: true
+          secretName: kubevirt-operator-certs
