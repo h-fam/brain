@@ -12,6 +12,5 @@ Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
 
 Then you can join any number of worker nodes by running the following on each as root:
 
-kubeadm join 192.168.1.221:6443 --token zppcqt.hsrzhf90way1zm49 \
-    --discovery-token-ca-cert-hash sha256:5dd7ee5d362542483c04d90a046dc119c09dfad36425851862a3b7f74cecdac4 
-
+kubeadm join 192.168.1.221:6443 --token cwanz2.h4ae4o3iuy7ffi5d \
+    --discovery-token-ca-cert-hash sha256:6c263c254bcc049ae68740d48d9a97c69791d0329ebbce1e64b0ab65d9e0dab9 
