@@ -1,0 +1,17 @@
+apiVersion: kubevirt.io/v1alpha2
+kind: VirtualMachineInstance
+metadata:
+  name: vmi-ubuntu
+spec:
+  domain:
+    devices:
+      disks:
+        - name: registrydisk
+          volumeName: registryvolume
+    resources:
+      requests:
+        memory: 4096M
+  volumes:
+    - name: registryvolume
+      registryDisk:
+        image: kubevirt/cirros-registry-disk-demo

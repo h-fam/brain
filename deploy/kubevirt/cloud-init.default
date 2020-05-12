@@ -1,0 +1,13 @@
+#cloud-config
+users:
+  - default
+  - name: marcus
+    gecos: Marcus
+    primary_group: marcus
+    groups: users
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    passwd: $6$N4mxQIU448c8xi.z$9qtQ1T50dSUrwzI6d6JBYpXl9SxwRfUvsvAGdtzQtLJvvfD706VnZCzfbp9DhCvR2psqgEiP6ZhHnqyfSGWn50
+    lock_passwd: false
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDXkM78h4NzZKJeiUX++aGOUp3mNwBLIpfdKrCi0oTYPsQ9xzyiOMI2LmLxBfs4Naw27lKrv3MaKXnSJEE5dcsxEtT+5f/7cuD0vp1VTAEuOg2kXDrWSL7/iLrPi9d7rQPAIEakm9WPjWjvJUJ1FOKGh3xxLQoMc+Es+txXEAFUEZMYg5XCTlohMibo3wLXpK59klZWMovnE2gTLkFjvppfPQpPJSvduB7Ggn3qQsUa/d1CQXZP7tetj1OqwVu61sPtBW+DPIoemWp6S2mAf1iw2JZpnST0/atDi1NSSVALiR/SbMIZPh62KHv5NTmmDYfrzdQBsK+bUhED/qoBB+eyQ3DBk4gxMIoGLc3rwI7xY1UYaLiPGbS8dJKyVfcxe3q3sEWsoFB/NHxXcAM4O+mnf4yGaAvmuZ6vUZWZTit1KHtV+SJA6vIV3E2xYUNJs2nFQyXeKejUPov4avpcL39ySQ2/reT1ljdkqLcVm11rWTyuNQHAUb/pUxLFOO+ZeHE= marcus@spot

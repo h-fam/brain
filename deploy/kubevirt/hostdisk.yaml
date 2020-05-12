@@ -1,0 +1,26 @@
+apiVersion: kubevirt.io/v1alpha3
+kind: VirtualMachine
+metadata:
+  labels:
+    special: vmi-host-disk
+  name: vmi-host-disk
+spec:
+  domain:
+    devices:
+      disks:
+      - disk:
+          bus: virtio
+        name: host-disk
+    machine:
+      type: ""
+    resources:
+      requests:
+        memory: 4096M
+  terminationGracePeriodSeconds: 0
+  volumes:
+  - hostDisk:
+      capacity: 100Gi
+      path: /mnt/vol1/space/focal-server1.img
+      type: DiskOrCreate
+    name: host-disk
+status: {}

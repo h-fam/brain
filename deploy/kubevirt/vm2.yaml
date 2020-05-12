@@ -1,14 +1,14 @@
 apiVersion: kubevirt.io/v1alpha3
 kind: VirtualMachine
 metadata:
-  name: testvm1
+  name: testvm2
 spec:
-  running: true
+  running: false
   template:
     metadata:
       labels:
         kubevirt.io/size: small
-        kubevirt.io/domain: testvm1
+        kubevirt.io/domain: testvm
     spec:
       domain:
         devices:

@@ -1,0 +1,7 @@
+cat << END > Dockerfile
+FROM scratch
+ADD --chown=107:107 focal-server-cloudimg-amd64-disk-kvm.qcow2 /disk/
+END
+
+docker build -t hfam/focal-server:latest .
+docker push hfam/focal-server:latest

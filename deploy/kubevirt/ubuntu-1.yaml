@@ -1,0 +1,32 @@
+apiVersion: kubevirt.io/v1alpha3
+kind: VirtualMachine
+metadata:
+  name: ubuntu-server
+spec:
+  running: true
+  template:
+    metadata:
+      labels:
+        kubevirt.io/size: small
+        kubevirt.io/domain: ubuntu-server
+    spec:
+      domain:
+        devices:
+          disks:
+            - name: containerdisk
+              disk:
+                bus: virtio
+            - name: cloudinitdisk
+              disk:
+                bus: virtio
+        resources:
+          requests:
+            memory: 4096M
+      volumes:
+        - name: containerdisk
+          containerDisk:
+            image: hfam/focal-server
+            imagePullPolicy: IfNotPresent
+        - name: cloudinitdisk
+          cloudInitNoCloud:
+            userDataBase64: I2Nsb3VkLWNvbmZpZwp1c2VyczoKICAtIGRlZmF1bHQKICAtIG5hbWU6IG1hcmN1cwogICAgZ2Vjb3M6IE1hcmN1cwogICAgcHJpbWFyeV9ncm91cDogbWFyY3VzCiAgICBncm91cHM6IHVzZXJzCiAgICBzdWRvOiBBTEw9KEFMTCkgTk9QQVNTV0Q6QUxMCiAgICBwYXNzd2Q6ICQ2JE40bXhRSVU0NDhjOHhpLnokOXF0UTFUNTBkU1Vyd3pJNmQ2SkJZcFhsOVN4d1JmVXZzdkFHZHR6UXRMSnZ2ZkQ3MDZWblpDemZicDlEaEN2UjJwc3FnRWlQNlpoSG5xeWZTR1duNTAKICAgIGxvY2tfcGFzc3dkOiBmYWxzZQogICAgc2hlbGw6IC9iaW4vYmFzaAogICAgc3NoX2F1dGhvcml6ZWRfa2V5czoKICAgICAgLSBzc2gtcnNhIEFBQUFCM056YUMxeWMyRUFBQUFEQVFBQkFBQUJnUURYa003OGg0TnpaS0plaVVYKythR09VcDNtTndCTElwZmRLckNpMG9UWVBzUTl4enlpT01JMkxtTHhCZnM0TmF3MjdsS3J2M01hS1huU0pFRTVkY3N4RXRUKzVmLzdjdUQwdnAxVlRBRXVPZzJrWERyV1NMNy9pTHJQaTlkN3JRUEFJRWFrbTlXUGpXanZKVUoxRk9LR2gzeHhMUW9NYytFcyt0eFhFQUZVRVpNWWc1WENUbG9oTWlibzN3TFhwSzU5a2xaV01vdm5FMmdUTGtGanZwcGZQUXBQSlN2ZHVCN0dnbjNxUXNVYS9kMUNRWFpQN3RldGoxT3F3VnU2MXNQdEJXK0RQSW9lbVdwNlMybUFmMWl3MkpacG5TVDAvYXREaTFOU1NWQUxpUi9TYk1JWlBoNjJLSHY1TlRtbURZZnJ6ZFFCc0srYlVoRUQvcW9CQitleVEzREJrNGd4TUlvR0xjM3J3STd4WTFVWWFMaVBHYlM4ZEpLeVZmY3hlM3Ezc0VXc29GQi9OSHhYY0FNNE8rbW5mNHlHYUF2bXVaNnZVWldaVGl0MUtIdFYrU0pBNnZJVjNFMnhZVU5KczJuRlF5WGVLZWpVUG92NGF2cGNMMzl5U1EyL3JlVDFsamRrcUxjVm0xMXJXVHl1TlFIQVViL3BVeExGT08rWmVIRT0gbWFyY3VzQHNwb3QK
