@@ -3,7 +3,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "go_default_library",
     srcs = ["powder.go"],
-    importpath = "hines-alloc/brain/loader/powder",
+    importpath = "hfam/brain/loader/powder",
     visibility = ["//visibility:public"],
     deps = [
         "//loader/manufacturer:go_default_library",

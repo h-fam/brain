@@ -1,8 +1,8 @@
 load("@bazel_gazelle//:def.bzl", "gazelle")
 
-# gazelle:prefix hines-alloc/brain
+# gazelle:prefix hfam/brain
 gazelle(
     name = "gazelle",
     #    external = "vendored",
-    prefix = "himes-alloc/brain",
+    prefix = "hfam/brain",
 )

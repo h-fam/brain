@@ -1,4 +1,4 @@
-module hines-alloc/brain
+module hfam/brain
 
 go 1.14
 

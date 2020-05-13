@@ -3,7 +3,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "go_default_library",
     srcs = ["caliber.go"],
-    importpath = "hines-alloc/brain/loader/caliber",
+    importpath = "hfam/brain/loader/caliber",
     visibility = ["//visibility:public"],
     deps = ["@com_google_cloud_go//datastore:go_default_library"],
 )

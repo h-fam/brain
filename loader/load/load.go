@@ -4,11 +4,12 @@ import (
 	"context"
 	"fmt"
 
+	"hfam/brain/loader/bullet"
+	"hfam/brain/loader/cases"
+	"hfam/brain/loader/powder"
+	"hfam/brain/loader/primer"
+
 	"cloud.google.com/go/datastore"
-	"hines-alloc/brain/loader/bullet"
-	"hines-alloc/brain/loader/cases"
-	"hines-alloc/brain/loader/powder"
-	"hines-alloc/brain/loader/primer"
 )
 
 type Load struct {

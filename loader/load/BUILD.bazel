@@ -3,7 +3,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "go_default_library",
     srcs = ["load.go"],
-    importpath = "hines-alloc/brain/loader/load",
+    importpath = "hfam/brain/loader/load",
     visibility = ["//visibility:public"],
     deps = [
         "//loader/bullet:go_default_library",

@@ -3,12 +3,12 @@ load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 go_library(
     name = "go_default_library",
     srcs = ["main.go"],
-    importpath = "hfam/brain/interview/balanced_array",
+    importpath = "hfam/brain/interview/linked_list_set",
     visibility = ["//visibility:private"],
 )
 
 go_binary(
-    name = "balanced_array",
+    name = "linked_list_set",
     embed = [":go_default_library"],
     visibility = ["//visibility:public"],
 )

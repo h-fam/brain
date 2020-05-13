@@ -4,6 +4,7 @@ sudo apt install timeshift
 sudo apt install jq
 sudo apt install qemu-utils
 sudo apt install whois
+sudo apt install gcc g++
 
 cd /tmp
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb

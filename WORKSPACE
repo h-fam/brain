@@ -5,22 +5,23 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 http_archive(
     name = "bazel_toolchains",
-    sha256 = "81e08efc3b26cdb14fe4188574d5797dbf8b348a79ecbe50e66f7992ab210fbe",
-    strip_prefix = "bazel-toolchains-2.2.2",
+    sha256 = "144290c4166bd67e76a54f96cd504ed86416ca3ca82030282760f0823c10be48",
+    strip_prefix = "bazel-toolchains-3.1.1",
     urls = [
-        "https://github.com/bazelbuild/bazel-toolchains/releases/download/2.2.2/bazel-toolchains-2.2.2.tar.gz",
+	"https://github.com/bazelbuild/bazel-toolchains/releases/download/3.1.1/bazel-toolchains-3.1.1.tar.gz",
     ],
 )
 
 load("@bazel_toolchains//rules:rbe_repo.bzl", "rbe_autoconfig")
 
+
 http_archive(
     name = "io_bazel_rules_go",
+    sha256 = "7b9bbe3ea1fccb46dcfa6c3f3e29ba7ec740d8733370e21cdc8937467b4a4349",
     urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.22.2/rules_go-v0.22.2.tar.gz",
-        "https://github.com/bazelbuild/rules_go/releases/download/v0.22.2/rules_go-v0.22.2.tar.gz",
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.22.4/rules_go-v0.22.4.tar.gz",
+        "https://github.com/bazelbuild/rules_go/releases/download/v0.22.4/rules_go-v0.22.4.tar.gz",
     ],
-    sha256 = "142dd33e38b563605f0d20e89d9ef9eda0fc3cb539a14be1bdb1350de2eda659",
 )
 
 load("@io_bazel_rules_go//go:deps.bzl", "go_rules_dependencies", "go_register_toolchains")

@@ -4,9 +4,10 @@ import (
 	"context"
 	"fmt"
 
+	"hfam/brain/loader/bullet"
+	"hfam/brain/loader/cloud"
+
 	"github.com/spf13/cobra"
-	"hines-alloc/brain/loader/bullet"
-	"hines-alloc/brain/loader/cloud"
 )
 
 func Add(ctx context.Context, parent *cobra.Command) {

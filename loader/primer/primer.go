@@ -4,8 +4,9 @@ import (
 	"context"
 	"fmt"
 
+	"hfam/brain/loader/manufacturer"
+
 	"cloud.google.com/go/datastore"
-	"hines-alloc/brain/loader/manufacturer"
 )
 
 type Primer struct {

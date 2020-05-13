@@ -4,9 +4,10 @@ import (
 	"context"
 	"fmt"
 
+	"hfam/brain/loader/caliber"
+	"hfam/brain/loader/manufacturer"
+
 	"cloud.google.com/go/datastore"
-	"hines-alloc/brain/loader/caliber"
-	"hines-alloc/brain/loader/manufacturer"
 )
 
 type Case struct {

@@ -3,13 +3,14 @@ package commands
 import (
 	"context"
 
+	"hfam/brain/loader/commands/bullet"
+	"hfam/brain/loader/commands/caliber"
+	"hfam/brain/loader/commands/cases"
+	"hfam/brain/loader/commands/manufacturer"
+	"hfam/brain/loader/commands/powder"
+	"hfam/brain/loader/commands/primer"
+
 	"github.com/spf13/cobra"
-	"hines-alloc/brain/loader/commands/bullet"
-	"hines-alloc/brain/loader/commands/caliber"
-	"hines-alloc/brain/loader/commands/cases"
-	"hines-alloc/brain/loader/commands/manufacturer"
-	"hines-alloc/brain/loader/commands/powder"
-	"hines-alloc/brain/loader/commands/primer"
 )
 
 var root = &cobra.Command{

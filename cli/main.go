@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"hines-alloc/brain/cli/commands"
+	"hfam/brain/cli/commands"
 
 	yaml "gopkg.in/yaml.v2"
 )

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"hines-alloc/brain/loader/commands"
+	"hfam/brain/loader/commands"
 )
 
 func main() {
