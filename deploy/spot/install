@@ -3,6 +3,7 @@ sudo apt install meld
 sudo apt install timeshift
 sudo apt install jq
 sudo apt install qemu-utils
+sudo apt install whois
 
 cd /tmp
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
@@ -23,3 +24,8 @@ sudo apt-mark hold kubelet kubeadm kubectl
 
 #edit fstab
 #/dev/disk/by-uuid/96692192-382e-43ed-bdd3-0b23715630ea /mnt/vol1 auto nosuid,nodev,nofail,x-gvfs-show 0 0
+
+
+# install kubevirt
+# csi
+# kubemq

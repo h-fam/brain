@@ -48,7 +48,7 @@ kubectl apply -f deploy/calico/calico.yaml
 kubectl apply -f deploy/metallb/metallb.yaml
 kubectl apply -f deploy/metallb/config.yaml
 
-
+kc get pods --all-namespaces
 
 #fix networkmanager to resolve from kubedns
 marcus@spot:/etc/NetworkManager$ sudo vi NetworkManager.conf 
