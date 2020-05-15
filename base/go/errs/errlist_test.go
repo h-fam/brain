@@ -50,7 +50,7 @@ func errsEqual(a, b []error) bool {
 
 func TestAdd(t *testing.T) {
 	var err errs.List
-	errs := []error{
+	errList := []error{
 		errors.New("error 1"),
 		errors.New("error 2"),
 		errors.New("error 3"),
@@ -65,14 +65,14 @@ func TestAdd(t *testing.T) {
 			t.Errorf("#%d: got unexpected errors: %v", i, err)
 		default:
 			e := err.(errs.Error).Errors()
-			if !errsEqual(errs[:i], e) {
-				t.Errorf("#%d: got %v, want %v", i, e, errs[:i])
+			if !errsEqual(errList[:i], e) {
+				t.Errorf("#%d: got %v, want %v", i, e, errList[:i])
 			}
 		}
 	}
 	err.Add(nil) // should be a no-op
 	check(0, err.Err())
-	for i, e := range errs {
+	for i, e := range errList {
 		err.Add(e)
 		err.Add(nil) // should be a no-op
 		check(i+1, err.Err())

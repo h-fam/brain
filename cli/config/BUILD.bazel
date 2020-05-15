@@ -5,7 +5,9 @@ go_library(
     srcs = ["config.go"],
     importpath = "hfam/brain/cli/config",
     visibility = ["//visibility:public"],
-    deps = ["@com_github_spf13_viper//:go_default_library"],
+    deps = [
+      "@com_github_spf13_viper//:go_default_library"
+    ],
 )
 
 go_test(

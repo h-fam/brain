@@ -5,4 +5,5 @@ go_library(
     srcs = ["dag.go"],
     importpath = "hfam/brain/dag",
     visibility = ["//visibility:public"],
+    deps = ["//base/go/key"],
 )
