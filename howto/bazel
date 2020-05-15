@@ -1,0 +1,6 @@
+# get all packages required by target
+
+bazel query 'buildfiles(deps(//cli/config:go_default_test))' --output package
+
+# figure out that version of import was breaking stuff
+bazel query 'attr(importpath, .*, @com_github_h_fam_errdiff//:*)' --output=build
