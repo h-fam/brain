@@ -1,7 +1,6 @@
 workspace(name = "hfam")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 http_archive(
     name = "bazel_toolchains",
@@ -14,17 +13,20 @@ http_archive(
 
 load("@bazel_toolchains//rules:rbe_repo.bzl", "rbe_autoconfig")
 
+rbe_autoconfig(
+    name = "rbe_default",
+)
 
 http_archive(
     name = "io_bazel_rules_go",
-    sha256 = "7b9bbe3ea1fccb46dcfa6c3f3e29ba7ec740d8733370e21cdc8937467b4a4349",
+    sha256 = "6a68e269802911fa419abb940c850734086869d7fe9bc8e12aaf60a09641c818",
     urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.22.4/rules_go-v0.22.4.tar.gz",
-        "https://github.com/bazelbuild/rules_go/releases/download/v0.22.4/rules_go-v0.22.4.tar.gz",
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.23.0/rules_go-v0.23.0.tar.gz",
+        "https://github.com/bazelbuild/rules_go/releases/download/v0.23.0/rules_go-v0.23.0.tar.gz",
     ],
 )
 
-load("@io_bazel_rules_go//go:deps.bzl", "go_rules_dependencies", "go_register_toolchains")
+load("@io_bazel_rules_go//go:deps.bzl", "go_rules_dependencies", "go_register_toolchains", "go_download_sdk")
 
 http_archive(
     name = "bazel_gazelle",
@@ -46,8 +48,6 @@ load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
 
 protobuf_deps()
 
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-
 http_archive(
     name = "bazel_skylib",
     urls = [
@@ -65,17 +65,10 @@ load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
 
 gazelle_dependencies(go_sdk = "go_sdk")
 
-load(
-    "@io_bazel_rules_go//go:deps.bzl",
-    "go_download_sdk",
-    "go_register_toolchains",
-    "go_rules_dependencies",
-)
-
 go_download_sdk(
     name = "go_sdk",
     sdks = {
-        "linux_amd64": ("go1.14.1.linux-amd64.tar.gz", "2f49eb17ce8b48c680cdb166ffd7389702c0dec6effa090c324804a5cac8a7f8"),
+        "linux_amd64": ("go1.14.3.linux-amd64.tar.gz", "1c39eac4ae95781b066c144c58e45d6859652247f7515f0d2cba7be7d57d2226"),
     },
 )
 
