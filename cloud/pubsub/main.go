@@ -54,5 +54,5 @@ func handleMessage(ctx context.Context, msg *pubsub.Message) {
 	if ctx.Err() != nil {
 		return
 	}
-	fmt.Println(msg)
+	fmt.Println(string(msg.Data))
 }
