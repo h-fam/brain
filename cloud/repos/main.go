@@ -26,7 +26,7 @@ func main() {
 	}
 	cfgs["build-brain"] = sourcerepo.PubsubConfig{
 		Topic:         "build-brain",
-		MessageFormat: "PROTOBUF",
+		MessageFormat: "JSON",
 	}
 	cfg.PubsubConfigs = cfgs
 	fmt.Println(cfg, err)
