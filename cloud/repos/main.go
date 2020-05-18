@@ -19,6 +19,7 @@ func main() {
 		log.Fatalf("failed to create service: %v", err)
 	}
 	cfg, err := s.Projects.GetConfig("projects/hines-alloc").Do()
+	fmt.Println(cfg.PubsubConfigs)
 	cfgs := cfg.PubsubConfigs
 	if cfgs == nil {
 		cfgs = map[string]sourcerepo.PubsubConfig{}
@@ -29,5 +30,5 @@ func main() {
 	}
 	cfg.PubsubConfigs = cfgs
 	fmt.Println(cfg, err)
-	s.Projects.UpdateConfig("projects/hines-alloc")
+	s.Projects.UpdateConfig("projects/hines-alloc", &sourcerepo.UpdateProjectConfigRequest{})
 }
