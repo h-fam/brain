@@ -1,0 +1,1 @@
+ bazel run //:bazeldeps -- --diff_changes=last_commits_targets_only > labels.txt
