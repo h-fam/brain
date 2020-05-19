@@ -2,14 +2,17 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+
 	"hfam/brain/base/go/log"
 
 	"cloud.google.com/go/pubsub"
 )
 
 const (
-	subID = "build-brain"
+	subID   = "build-brain"
+	topicID = "projects/hines-alloc/topic/brain-build"
 )
 
 func main() {
@@ -29,16 +32,22 @@ func main() {
 		fmt.Println(s.String())
 	}
 	s := c.Subscription(subID)
-	e, err := s.Exists(ctx)
-	if err != nil {
-		log.Errorf("Failed to check if subscription exists: %v", err)
-		return
-	}
-	if !e {
-		var err error
-		s, err = c.CreateSubscription(ctx, subID, pubsub.SubscriptionConfig{})
+	if e, err := s.Exists(ctx); err != nil || !e {
+		t := c.Topic(topicID)
+		if ok, err := t.Exists(ctx); err != nil || !ok {
+			log.Errorf("failed to get topic %q: %v", topicID, err)
+			return
+		}
+		subCfg := pubsub.SubscriptionConfig{
+			Topic:               t,
+			RetainAckedMessages: false,
+			Labels: map[string]string{
+				"ci": "update",
+			},
+		}
+		s, err = c.CreateSubscription(ctx, subID, subCfg)
 		if err != nil {
-			log.Errorf("Failed to create subscription: %v", err)
+			log.Errorf("failed to create subscription: %v", err)
 			return
 		}
 	}
@@ -68,9 +77,33 @@ func main() {
   }
 }
 */
+type Event struct {
+	Email      string
+	RefUpdates map[string]Update
+	UpdateType string
+}
+
+type Update struct {
+	RefName    string
+	UpdateType string
+	OldID      string
+	NewID      string
+}
+
+type Message struct {
+	Name           string `json:"name"`
+	URL            string `json:"url"`
+	EventTime      string `json:"eventTime"`
+	RefUpdateEvent Event  `json:"refUpdateEvent"`
+}
+
 func handleMessage(ctx context.Context, msg *pubsub.Message) {
 	if ctx.Err() != nil {
 		return
 	}
-	fmt.Println(string(msg.Data))
+	m := &Message{}
+	if err := json.Unmarshal(msg.Data, m); err != nil {
+		log.Errorf("failed to unmarshal message %+v: %v", msg, err)
+	}
+	fmt.Printf("%+v\n", m)
 }
