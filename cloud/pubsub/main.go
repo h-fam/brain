@@ -50,6 +50,24 @@ func main() {
 	}
 }
 
+/*
+{
+  "name": "projects/hines-alloc/repos/brain",
+  "url": "https://source.developers.google.com/p/hines-alloc/r/brain",
+  "eventTime": "2020-05-18T22:50:48.531823Z",
+  "refUpdateEvent": {
+    "email": "marcus.hines@gmail.com",
+    "refUpdates": {
+      "refs/heads/master": {
+        "refName": "refs/heads/master",
+        "updateType": "UPDATE_FAST_FORWARD",
+        "oldId": "a27ea64b41dbf5ee515227a7ae3c1151fe6336e0",
+        "newId": "b8763d451e09907d974d9f9ff983a2d8da08565c"
+      }
+    }
+  }
+}
+*/
 func handleMessage(ctx context.Context, msg *pubsub.Message) {
 	if ctx.Err() != nil {
 		return
