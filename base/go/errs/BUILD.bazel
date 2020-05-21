@@ -6,7 +6,7 @@ go_library(
         "errlist.go",
         "errmap.go",
     ],
-    importpath = "hfam/brain/base/go/errs",
+    importpath = "github.com/h-fam/brain/base/go/errs",
     visibility = ["//visibility:public"],
 )
 
@@ -17,14 +17,4 @@ go_test(
     deps = [
         ":errs",
     ],
-)
-
-go_library(
-    name = "go_default_library",
-    srcs = [
-        "errlist.go",
-        "errmap.go",
-    ],
-    importpath = "github.com/h-fam/brain/base/go/errs",
-    visibility = ["//visibility:public"],
 )

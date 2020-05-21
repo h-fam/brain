@@ -5,5 +5,5 @@ go_library(
     srcs = ["caliber.go"],
     importpath = "github.com/h-fam/brain/loader/caliber",
     visibility = ["//visibility:public"],
-    deps = ["@com_google_cloud_go//datastore:go_default_library"],
+    deps = ["@com_google_cloud_go_datastore//:go_default_library"],
 )

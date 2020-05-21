@@ -1,4 +1,4 @@
-module hfam/brain
+module github.com/h-fam/brain
 
 go 1.14
 
