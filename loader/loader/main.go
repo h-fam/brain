@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"hfam/brain/loader/commands"
+	"github.com/h-fam/brain/loader/commands"
 )
 
 func main() {

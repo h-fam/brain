@@ -2,7 +2,8 @@ package dag
 
 import (
 	"fmt"
-	"hfam/brain/base/go/key"
+
+	"github.com/h-fam/brain/base/go/key"
 )
 
 // Graph is a generic graph handler for loading an arbitrary nodes and edges.

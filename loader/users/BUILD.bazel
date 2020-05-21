@@ -1,0 +1,9 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["users.go"],
+    importpath = "github.com/h-fam/brain/loader/users",
+    visibility = ["//visibility:public"],
+    deps = ["@com_google_cloud_go//datastore:go_default_library"],
+)

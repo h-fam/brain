@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"cloud.google.com/go/storage"
-	log "github.com/golang/glog"
+	"github.com/h-fam/brain/base/go/log"
 )
 
 func main() {

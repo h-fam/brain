@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"hfam/brain/cli/commands"
+	"github.com/h-fam/brain/cli/commands"
 
 	yaml "gopkg.in/yaml.v2"
 )

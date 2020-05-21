@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"hfam/brain/base/go/log"
+	"github.com/h-fam/brain/base/go/log"
 
 	"cloud.google.com/go/pubsub"
 )

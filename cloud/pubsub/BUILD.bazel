@@ -3,7 +3,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 go_library(
     name = "go_default_library",
     srcs = ["main.go"],
-    importpath = "hfam/brain/cloud/pubsub",
+    importpath = "github.com/h-fam/brain/cloud/pubsub",
     visibility = ["//visibility:private"],
     deps = [
         "//base/go/log:go_default_library",

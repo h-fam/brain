@@ -429,8 +429,8 @@ go_repository(
 go_repository(
     name = "org_golang_google_genproto",
     importpath = "google.golang.org/genproto",
-    sum = "h1:1Ym+vvUpq1ZHvxzn34gENJX8U4aKO+vhy2P/2+Xl6qQ=",
-    version = "v0.0.0-20200515170657-fc4c6c6a6587",
+    sum = "h1:gSJIx1SDwno+2ElGhA4+qG2zF97qiUzTM+rQ0klBOcE=",
+    version = "v0.0.0-20190819201941-24fa4b261c55",
 )
 
 go_repository(
@@ -471,8 +471,8 @@ go_repository(
 go_repository(
     name = "org_golang_x_sys",
     importpath = "golang.org/x/sys",
-    sum = "h1:YTzHMGlqJu67/uEo1lBv0n3wBXhXNeUbB1XfN2vmTm0=",
-    version = "v0.0.0-20200515095857-1151b9dac4a9",
+    sum = "h1:KIDDMLT1O0Nr7TSxp8xM5tJcdn8tgyAONntO829og1M=",
+    version = "v0.0.0-20190804053845-51ab0e2deafa",
 )
 
 go_repository(
@@ -632,7 +632,7 @@ go_repository(
 go_repository(
     name = "com_github_h_fam_errdiff",
     importpath = "github.com/h-fam/errdiff",
-    sum = "h1:rPsW4ob2fMOIulwTEoZXaaUIuud7XUudw5SLKTZj3Ss=",
+    sum = "h1:PMIBVkX6S5Lr4+GTTr2ga1m9vr1P9iWnG+Ky2KYvER8=",
     version = "v1.0.2",
 )
 
@@ -849,15 +849,15 @@ go_repository(
 go_repository(
     name = "org_golang_google_grpc",
     importpath = "google.golang.org/grpc",
-    sum = "h1:EC2SB8S04d2r73uptxphDSUG+kTKVgjRPF+N3xpxRB4=",
-    version = "v1.29.1",
+    sum = "h1:bO/TA4OxCOummhSf10siHuG7vJOiwh7SpRpFZDkOgl4=",
+    version = "v1.28.0",
 )
 
 go_repository(
     name = "org_golang_x_net",
     importpath = "golang.org/x/net",
-    sum = "h1:EZ3cVSzKOlJxAd8e8YAJ7no8nNypTxexh/YE/xW3ZEY=",
-    version = "v0.0.0-20200513185701-a91f0712d120",
+    sum = "h1:Ao/3l156eZf2AW5wK8a7/smtodRU+gha3+BeqJ69lRk=",
+    version = "v0.0.0-20190724013045-ca1201d0de80",
 )
 
 go_repository(

@@ -1,9 +1,10 @@
-module hfam/brain
+module github.com/h-fam/brain
 
 go 1.14
 
 require (
 	cloud.google.com/go v0.44.3
+	cloud.google.com/go/datastore v1.0.0
 	github.com/go-kit/kit v0.8.0
 	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
 	github.com/golang/protobuf v1.4.2 // indirect
@@ -29,6 +30,11 @@ require (
 	google.golang.org/genproto v0.0.0-20200515170657-fc4c6c6a6587
 	google.golang.org/grpc v1.29.1
 	google.golang.org/protobuf v1.23.0
-	gopkg.in/yaml.v2 v2.2.2
+	gopkg.in/yaml.v2 v2.2.8
 	honnef.co/go/tools v0.0.1-2020.1.4 // indirect
+	k8s.io/api v0.18.3
+	k8s.io/apimachinery v0.18.3
+	k8s.io/client-go v11.0.0+incompatible
+	k8s.io/klog/v2 v2.0.0
+	k8s.io/sample-controller v0.18.3
 )

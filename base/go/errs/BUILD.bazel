@@ -18,3 +18,13 @@ go_test(
         ":errs",
     ],
 )
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "errlist.go",
+        "errmap.go",
+    ],
+    importpath = "github.com/h-fam/brain/base/go/errs",
+    visibility = ["//visibility:public"],
+)

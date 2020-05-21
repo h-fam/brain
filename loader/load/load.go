@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 
-	"hfam/brain/loader/bullet"
-	"hfam/brain/loader/cases"
-	"hfam/brain/loader/powder"
-	"hfam/brain/loader/primer"
+	"github.com/h-fam/brain/loader/bullet"
+	"github.com/h-fam/brain/loader/cases"
+	"github.com/h-fam/brain/loader/powder"
+	"github.com/h-fam/brain/loader/primer"
 
 	"cloud.google.com/go/datastore"
 )

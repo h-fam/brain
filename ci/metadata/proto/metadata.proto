@@ -1,0 +1,22 @@
+message Metadata {
+  string project = 1;
+  string description = 2;
+  map<string, string> labels = 2;
+  repeated BuildableTarget buildable_targets = 101;
+  repeated TestableTarget testable_targets = 102;
+}
+
+message BuildableTarget {
+  string target = 1;
+  oneof invocable {
+    string bazel = 100;
+  };
+}
+
+message TestableTarget {
+  string target = 1;
+  oneof invocable {
+    string bazel = 100;
+  };
+}
+

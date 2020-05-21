@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"hfam/brain/loader/manufacturer"
+	"github.com/h-fam/brain/loader/manufacturer"
 
 	"cloud.google.com/go/datastore"
 )

@@ -3,10 +3,10 @@ load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 go_library(
     name = "go_default_library",
     srcs = ["writer.go"],
-    importpath = "hfam/brain/cloud/storage",
+    importpath = "github.com/h-fam/brain/cloud/storage",
     visibility = ["//visibility:private"],
     deps = [
-        "@com_github_golang_glog//:go_default_library",
+        "//base/go/log:go_default_library",
         "@com_google_cloud_go//storage:go_default_library",
     ],
 )

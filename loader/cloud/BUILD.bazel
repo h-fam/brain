@@ -6,7 +6,7 @@ go_library(
         "auth.go",
         "cloud.go",
     ],
-    importpath = "hfam/brain/loader/cloud",
+    importpath = "github.com/h-fam/brain/loader/cloud",
     visibility = ["//visibility:public"],
     deps = [
         "@com_github_golang_glog//:go_default_library",

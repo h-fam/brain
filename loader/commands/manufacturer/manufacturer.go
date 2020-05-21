@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"hfam/brain/loader/cloud"
-	"hfam/brain/loader/manufacturer"
+	"github.com/h-fam/brain/loader/cloud"
+	"github.com/h-fam/brain/loader/manufacturer"
 
 	"github.com/spf13/cobra"
 )

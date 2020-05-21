@@ -3,7 +3,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "go_default_library",
     srcs = ["component.go"],
-    importpath = "hfam/brain/testrunner/component",
+    importpath = "github.com/h-fam/brain/testrunner/component",
     visibility = ["//visibility:public"],
     deps = ["//testrunner/result:go_default_library"],
 )

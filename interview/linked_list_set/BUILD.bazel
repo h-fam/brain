@@ -3,7 +3,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 go_library(
     name = "go_default_library",
     srcs = ["main.go"],
-    importpath = "hfam/brain/interview/linked_list_set",
+    importpath = "github.com/h-fam/brain/interview/linked_list_set",
     visibility = ["//visibility:private"],
 )
 

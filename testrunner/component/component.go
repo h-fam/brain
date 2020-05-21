@@ -2,7 +2,8 @@ package component
 
 import (
 	"context"
-	"hfam/brain/testrunner/result"
+
+	"github.com/h-fam/brain/testrunner/result"
 )
 
 type ComponentGetter interface {

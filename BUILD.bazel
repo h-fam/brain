@@ -1,8 +1,8 @@
 load("@bazel_gazelle//:def.bzl", "gazelle")
 
 # gazelle:proto disable_global
-# gazelle:prefix hfam/brain
+# gazelle:prefix github.com/h-fam/brain
 gazelle(
     name = "gazelle",
-    prefix = "hfam/brain",
+    prefix = "github.com/h-fam/brain",
 )

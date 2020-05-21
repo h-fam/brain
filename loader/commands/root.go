@@ -3,12 +3,12 @@ package commands
 import (
 	"context"
 
-	"hfam/brain/loader/commands/bullet"
-	"hfam/brain/loader/commands/caliber"
-	"hfam/brain/loader/commands/cases"
-	"hfam/brain/loader/commands/manufacturer"
-	"hfam/brain/loader/commands/powder"
-	"hfam/brain/loader/commands/primer"
+	"github.com/h-fam/brain/loader/commands/bullet"
+	"github.com/h-fam/brain/loader/commands/caliber"
+	"github.com/h-fam/brain/loader/commands/cases"
+	"github.com/h-fam/brain/loader/commands/manufacturer"
+	"github.com/h-fam/brain/loader/commands/powder"
+	"github.com/h-fam/brain/loader/commands/primer"
 
 	"github.com/spf13/cobra"
 )

@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"hfam/brain/base/go/errs"
+	"github.com/h-fam/brain/base/go/errs"
 )
 
 func TestNil(t *testing.T) {

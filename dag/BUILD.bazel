@@ -3,7 +3,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "go_default_library",
     srcs = ["dag.go"],
-    importpath = "hfam/brain/dag",
+    importpath = "github.com/h-fam/brain/dag",
     visibility = ["//visibility:public"],
-    deps = ["//base/go/key"],
+    deps = ["//base/go/key:go_default_library"],
 )

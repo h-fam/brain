@@ -6,3 +6,10 @@ go_library(
     importpath = "hfam/brain/base/go/key",
     visibility = ["//visibility:public"],
 )
+
+go_library(
+    name = "go_default_library",
+    srcs = ["key.go"],
+    importpath = "github.com/h-fam/brain/base/go/key",
+    visibility = ["//visibility:public"],
+)
