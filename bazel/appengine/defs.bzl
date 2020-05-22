@@ -1,4 +1,4 @@
-load("@io_bazel_rules_go//go:def.bzl", "GoLibrary", "GoPath", "GoSource", "go_path")
+load("@io_bazel_rules_go//go:def.bzl", "GoPath", "go_path")
 
 def _go_appengine_deploy_path_impl(ctx):
     config = ctx.file.config

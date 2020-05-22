@@ -1,4 +1,4 @@
-load("//appengine:defs.bzl", "go_appengine_deploy")
+load("//bazel/appengine:defs.bzl", "go_appengine_deploy")
 
 go_appengine_deploy(
     name = "test-deploy",
