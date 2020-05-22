@@ -9,7 +9,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/h-fam/brain/loader/users"
+	"github.com/h-fam/brain/loader/user"
 
 	"cloud.google.com/go/compute/metadata"
 	"cloud.google.com/go/datastore"
@@ -86,8 +86,7 @@ func (a *app) index(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "Could not validate assertion. Check app logs.")
 		return
 	}
-	u := &users.User{Email: email}
-	users.Add(context.Background(), a.c, u)
+	user.Add(context.Background(), a.c, &user.User{Email: email})
 	fmt.Fprintf(w, "Hello %s\n", email)
 }
 

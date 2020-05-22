@@ -1,12 +1,14 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("//bazel/appengine:defs.bzl", "go_appengine_deploy")
+
 
 go_library(
     name = "go_default_library",
     srcs = ["loader.go"],
-    importpath = "github.com/h-fam/brain/loader/app",
+    importpath = "github.com/h-fam/brain/loader",
     visibility = ["//visibility:private"],
     deps = [
-        "//loader/users:go_default_library",
+        "//loader/user:go_default_library",
         "@com_github_dgrijalva_jwt_go//:go_default_library",
         "@com_google_cloud_go//compute/metadata:go_default_library",
         "@com_google_cloud_go_datastore//:go_default_library",
@@ -14,7 +16,19 @@ go_library(
 )
 
 go_binary(
-    name = "app",
+    name = "loader",
     embed = [":go_default_library"],
     visibility = ["//visibility:public"],
+)
+
+go_appengine_deploy(
+  name = "loader_deploy",
+  config = "app.yaml",
+  entry = "github.com/h-fam/brain/loader",
+  deps = [
+    ":loader",
+  ],
+  gomod = "//:go.mod",
+  gosum = "//:go.sum",
+
 )

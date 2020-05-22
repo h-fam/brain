@@ -1,0 +1,10 @@
+load("//appengine:defs.bzl", "go_appengine_deploy")
+
+go_appengine_deploy(
+    name = "test-deploy",
+    config = "app.yaml",
+    entry = "github.com/h-fam/brain/bazel/appengine/deploy",
+    deps = [
+        "//bazel/appengine/deploy",
+    ],
+)
