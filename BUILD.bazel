@@ -7,4 +7,7 @@ gazelle(
     prefix = "github.com/h-fam/brain",
 )
 
-exports_files(["go.mod", "go.sum"])
+exports_files([
+    "go.mod",
+    "go.sum",
+])

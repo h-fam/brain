@@ -1,7 +1,6 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 load("//bazel/appengine:defs.bzl", "go_appengine_deploy")
 
-
 go_library(
     name = "go_default_library",
     srcs = ["loader.go"],
@@ -22,12 +21,12 @@ go_binary(
 )
 
 go_appengine_deploy(
-  name = "loader_deploy",
-  config = "app.yaml",
-  entry = "github.com/h-fam/brain/loader",
-  deps = [
-    ":loader",
-  ],
-  gomod = "//:go.mod",
-  gosum = "//:go.sum",
+    name = "loader_deploy",
+    config = "app.yaml",
+    entry = "github.com/h-fam/brain/loader",
+    gomod = "//:go.mod",
+    gosum = "//:go.sum",
+    deps = [
+        ":loader",
+    ],
 )
