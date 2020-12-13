@@ -11,8 +11,8 @@ go_library(
 )
 
 go_test(
-    name = "errlist_test",
-    srcs = ["errlist_test.go"],
+    name = "errs_test",
+    srcs = ["errs_test.go"],
     visibility = ["//visibility:public"],
     deps = [
         ":errs",
