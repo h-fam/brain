@@ -1,5 +1,7 @@
+# default dependencies for thie repo.
 load("@bazel_gazelle//:deps.bzl", "go_repository")
 
+# go_dependencies loads the default go dependencies for the repo.
 def go_dependencies():
     go_repository(
         name = "co_honnef_go_tools",

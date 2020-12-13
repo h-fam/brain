@@ -1,7 +1,7 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
-    name = "errs",
+    name = "go_default_library",
     srcs = [
         "errlist.go",
         "errmap.go",
@@ -17,4 +17,10 @@ go_test(
     deps = [
         ":errs",
     ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = ["errs_test.go"],
+    embed = [":go_default_library"],
 )

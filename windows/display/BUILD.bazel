@@ -1,0 +1,8 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_binary(
+    name = "display",
+    srcs = ["display.go"],
+    visibility = ["//visibility:private"],
+    deps = ["//base/go/log:go_default_library"],
+)
