@@ -1,26 +1,36 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"os"
 
 	"github.com/h-fam/brain/base/go/log"
+	"github.com/h-fam/brain/windows/display/resolv"
 )
 
-func loadResolvConf(fName string) (string, error) {
+func loadResolvConf(fName string) ([]byte, error) {
 	b, err := ioutil.ReadFile(fName)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return string(b), nil
+	return b, nil
 }
 
 func main() {
-	s, err := loadResolvConf("/etc/resolv.conf")
+	b, err := loadResolvConf("/etc/resolv.conf")
 	if err != nil {
-		log.Errorf("failed to load resolv.conf: %v", err)
+		log.Errorf("Failed to load resolv.conf: %v", err)
 		os.Exit(1)
 	}
-	fmt.Println(s)
+	p := resolv.NewParser(bytes.NewBuffer(b))
+	r, err := p.Parse()
+	if err != nil {
+		log.Errorf("failed to parse file: %v", err)
+	}
+	if len(r.NameServers) == 0 {
+		fmt.Println("0.0.0.0")
+	}
+	fmt.Printf("%s:0", r.NameServers[0])
 }

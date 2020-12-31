@@ -2,7 +2,17 @@ load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 
 go_binary(
     name = "display",
-    srcs = ["display.go"],
+    embed = [":go_default_library"],
     visibility = ["//visibility:private"],
-    deps = ["//base/go/log:go_default_library"],
+)
+
+go_library(
+    name = "go_default_library",
+    srcs = ["display.go"],
+    importpath = "github.com/h-fam/brain/windows/display",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//base/go/log:go_default_library",
+        "//windows/display/resolv:go_default_library",
+    ],
 )

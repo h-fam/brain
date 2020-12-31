@@ -1,0 +1,12 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "lexer.go",
+        "parser.go",
+    ],
+    importpath = "github.com/h-fam/brain/windows/display/resolv",
+    visibility = ["//visibility:public"],
+    deps = ["//base/go/log:go_default_library"],
+)
