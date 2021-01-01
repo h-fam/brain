@@ -5,7 +5,6 @@ import (
 
 	"github.com/h-fam/brain/base/go/errs"
 	"github.com/h-fam/brain/base/go/key"
-	"github.com/h-fam/brain/base/go/log"
 )
 
 // Node is generic node to be used in the graph.
@@ -87,7 +86,6 @@ func (g *Graph) Traverse(k key.Key, fn TraverseFunc) error {
 	visited := map[key.Key]bool{}
 	var errList errs.List
 	for len(s) != 0 {
-		log.Info(s)
 		curr := s[0]
 		s = s[1:]
 		err := fn(g.nodes[curr])
