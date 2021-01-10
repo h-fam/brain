@@ -1,6 +1,6 @@
 package errs_test
 
-// Use package errlist_test rather than errlist to prevent the tests from having
+// Use package err_test rather than errlist to prevent the tests from having
 // any internal access to the actual List or Error types.
 
 import (
